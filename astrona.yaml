@@ -1,0 +1,73 @@
+# Preparation scaffold. Technical pages stay draft until authoring and review.
+training:
+  id: ATS081
+  title: 'CNPA: IDPs and Developer Experience'
+  description: Preparation scaffold for IDPs and Developer Experience. Lessons and environments are planned.
+  certification:
+    name: Certified Cloud Native Platform Engineering Associate
+    code: CNPA
+    provider: CNCF / Linux Foundation
+    domain: IDPs and Developer Experience
+    weight: 8
+    competencies:
+    - Simplified Access to Platform Capabilities
+    - API-Driven Service Catalogs
+    - Developer Portals for Platform Adoption
+    - AI/ML in Platform Automation
+modules:
+- id: module-intro
+  title: Introduction
+  description: Planned introduction and authoring status.
+  content:
+  - type: reading
+    title: Introduction
+    path: sections/intro/README.md
+  - type: reading
+    title: Welcome To The Course
+    path: sections/intro/course-01-welcome.md
+  - type: reading
+    title: Get Your Machine Ready
+    path: sections/intro/course-02-get-your-machine-ready.md
+  - type: reading
+    title: How This Course Is Made
+    path: sections/intro/course-03-how-this-course-is-made.md
+- id: module-010
+  title: Simplified Access to Platform Capabilities
+  description: Planned coverage of this curriculum objective.
+  content:
+  - type: reading
+    title: Section Overview
+    path: sections/section-010/README.md
+  - type: reading
+    title: Simplified Access to Platform Capabilities
+    path: sections/section-010/module-01/course.md
+- id: module-020
+  title: API-Driven Service Catalogs
+  description: Planned coverage of this curriculum objective.
+  content:
+  - type: reading
+    title: Section Overview
+    path: sections/section-020/README.md
+  - type: reading
+    title: API-Driven Service Catalogs
+    path: sections/section-020/module-01/course.md
+- id: module-030
+  title: Developer Portals for Platform Adoption
+  description: Planned coverage of this curriculum objective.
+  content:
+  - type: reading
+    title: Section Overview
+    path: sections/section-030/README.md
+  - type: reading
+    title: Developer Portals for Platform Adoption
+    path: sections/section-030/module-01/course.md
+- id: module-040
+  title: AI/ML in Platform Automation
+  description: Planned coverage of this curriculum objective.
+  content:
+  - type: reading
+    title: Section Overview
+    path: sections/section-040/README.md
+  - type: reading
+    title: AI/ML in Platform Automation
+    path: sections/section-040/module-01/course.md
