@@ -1,0 +1,243 @@
+schema_version: 1
+kind: question_bank
+id: ats081-domain-review
+course_id: ATS081
+exam_code: CNPA
+status: draft
+provenance: Original practice material; not official examination questions.
+scope:
+  type: domain
+  id: domain-review
+  title: IDPs and Developer Experience
+placement:
+  position: after
+  reading: sections/section-040/module-01/course-02-summary.md
+questions:
+- id: ats081-domain-review-q01
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Explain self-service as supported independent capability consumption.
+  source_readings:
+  - sections/section-010/module-01/course-01-self-service-requests-guardrails-and-useful-status.md
+  prompt: What makes a capability meaningfully self-service?
+  options:
+  - id: a
+    text: A form always sends an unexplained ticket to an administrator.
+    explanation: That retains a hidden manual dependency.
+  - id: b
+    text: Every user receives unrestricted provider credentials.
+    explanation: That removes useful boundaries.
+  - id: c
+    text: Users can complete a supported task through clear inputs and observable automated outcomes.
+    explanation: Independent consumption is the goal.
+  correct_option: c
+  explanation: Independent consumption is the goal.
+- id: ats081-domain-review-q02
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Distinguish guardrails from hidden manual dependencies.
+  source_readings:
+  - sections/section-010/module-01/course-01-self-service-requests-guardrails-and-useful-status.md
+  prompt: What should a guardrail provide when rejecting an input?
+  options:
+  - id: a
+    text: Automatic permission escalation.
+    explanation: Rejection is not a reason to bypass policy.
+  - id: b
+    text: A clear supported constraint and useful repair direction.
+    explanation: It should make the contract understandable.
+  - id: c
+    text: Only a generic blank page.
+    explanation: That hides the reason.
+  correct_option: b
+  explanation: It should make the contract understandable.
+- id: ats081-domain-review-q03
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Reason about request status, permission and exception handling.
+  source_readings:
+  - sections/section-010/module-01/course-01-self-service-requests-guardrails-and-useful-status.md
+  prompt: Why expose pending and failed request states?
+  options:
+  - id: a
+    text: Provisioning can be asynchronous and users need truthful progress.
+    explanation: Acceptance is narrower than completion.
+  - id: b
+    text: Every accepted request is ready immediately.
+    explanation: External work can take time or fail.
+  - id: c
+    text: Status only decorates the homepage.
+    explanation: It supports operational decisions.
+  correct_option: a
+  explanation: Acceptance is narrower than completion.
+- id: ats081-domain-review-q04
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Explain the catalog as a model of software and organizational relationships.
+  source_readings:
+  - sections/section-020/module-01/course-01-software-entities-ownership-and-discoverable-relationships.md
+  prompt: Which question is the catalog particularly suited to answer?
+  options:
+  - id: a
+    text: Which CPU instruction a process is executing right now?
+    explanation: That requires runtime profiling.
+  - id: b
+    text: Which browser owns an integration secret?
+    explanation: Secrets should not belong to browser metadata.
+  - id: c
+    text: Who owns a component and how it relates to other entities?
+    explanation: That is structured software metadata.
+  correct_option: c
+  explanation: That is structured software metadata.
+- id: ats081-domain-review-q05
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Distinguish entity identity from deployment identity.
+  source_readings:
+  - sections/section-020/module-01/course-01-software-entities-ownership-and-discoverable-relationships.md
+  prompt: Which elements form a fully qualified entity reference?
+  options:
+  - id: a
+    text: Only a transient Pod address.
+    explanation: Runtime addresses are not catalog identity.
+  - id: b
+    text: Kind, namespace and name.
+    explanation: Together they distinguish an entity.
+  - id: c
+    text: Only the displayed title.
+    explanation: Titles need not establish unique identity.
+  correct_option: b
+  explanation: Together they distinguish an entity.
+- id: ats081-domain-review-q06
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Reason about ownership, freshness and catalog usefulness.
+  source_readings:
+  - sections/section-020/module-01/course-01-software-entities-ownership-and-discoverable-relationships.md
+  prompt: A service has a valid Component entity. What remains unproven?
+  options:
+  - id: a
+    text: Its current runtime health and metadata freshness.
+    explanation: Catalog validity is narrower than operational truth.
+  - id: b
+    text: Whether it can have an owner reference at all.
+    explanation: Ownership is a supported relationship.
+  - id: c
+    text: Whether a catalog can store software metadata.
+    explanation: That is the catalog's purpose.
+  correct_option: a
+  explanation: Catalog validity is narrower than operational truth.
+- id: ats081-domain-review-q07
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Distinguish a developer portal from the complete platform.
+  source_readings:
+  - sections/section-030/module-01/course-01-developer-portals-discovery-and-supported-adoption.md
+  prompt: What is the portal's role in a provisioning task?
+  options:
+  - id: a
+    text: Replace every provider control plane through browser rendering.
+    explanation: Rendering does not provision infrastructure.
+  - id: b
+    text: Make all user actions authorized by displaying them.
+    explanation: Server checks remain necessary.
+  - id: c
+    text: Guide and submit intent through the supported platform contract.
+    explanation: The implementation remains in APIs and controllers.
+  correct_option: c
+  explanation: The implementation remains in APIs and controllers.
+- id: ats081-domain-review-q08
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Explain catalog, documentation and task integration roles.
+  source_readings:
+  - sections/section-030/module-01/course-01-developer-portals-discovery-and-supported-adoption.md
+  prompt: Why maintain catalog ownership and documentation freshness?
+  options:
+  - id: a
+    text: Freshness only changes a color.
+    explanation: It changes whether guidance is reliable.
+  - id: b
+    text: Users rely on them for decisions and supported task completion.
+    explanation: Stale information undermines the portal's usefulness.
+  - id: c
+    text: Every valid entity automatically updates all documentation.
+    explanation: Ownership is still required.
+  correct_option: b
+  explanation: Stale information undermines the portal's usefulness.
+- id: ats081-domain-review-q09
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Reason about adoption, freshness and alternative interfaces.
+  source_readings:
+  - sections/section-030/module-01/course-01-developer-portals-discovery-and-supported-adoption.md
+  prompt: Which measure can help assess portal value?
+  options:
+  - id: a
+    text: Whether a defined developer task becomes easier and reliably completes.
+    explanation: It connects interface use to outcome.
+  - id: b
+    text: Only the number of homepage visits.
+    explanation: Visits can reflect confusion.
+  - id: c
+    text: Only the number of decorative cards.
+    explanation: Feature count does not prove usefulness.
+  correct_option: a
+  explanation: It connects interface use to outcome.
+- id: ats081-domain-review-q10
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Distinguish recommendation, generation and autonomous platform actions.
+  source_readings:
+  - sections/section-040/module-01/course-01-ai-assisted-automation-evaluation-and-bounded-authority.md
+  prompt: What should precede adopting an AI feature for a platform task?
+  options:
+  - id: a
+    text: Assuming fluent output is always correct.
+    explanation: Fluency is not truth.
+  - id: b
+    text: Giving the feature all provider administrator credentials.
+    explanation: Authority should be constrained.
+  - id: c
+    text: A defined task and evidence that it improves relevant outcomes.
+    explanation: Evaluation needs a concrete target.
+  correct_option: c
+  explanation: Evaluation needs a concrete target.
+- id: ats081-domain-review-q11
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Explain data and tool-permission boundaries for AI-assisted workflows.
+  source_readings:
+  - sections/section-040/module-01/course-01-ai-assisted-automation-evaluation-and-bounded-authority.md
+  prompt: Can generated configuration bypass platform policy because it came from AI?
+  options:
+  - id: a
+    text: Yes; a model name proves compliance.
+    explanation: A name does not enforce controls.
+  - id: b
+    text: No; the same validation and authorization boundaries apply.
+    explanation: Generation does not grant permission.
+  - id: c
+    text: Yes; generated text is automatically trusted.
+    explanation: It can be incorrect or influenced by input.
+  correct_option: b
+  explanation: Generation does not grant permission.
+- id: ats081-domain-review-q12
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Reason about evaluation, uncertainty and feedback before adoption.
+  source_readings:
+  - sections/section-040/module-01/course-01-ai-assisted-automation-evaluation-and-bounded-authority.md
+  prompt: Why review source data sent to an AI capability?
+  options:
+  - id: a
+    text: It may include confidential code, credentials or user information.
+    explanation: The data boundary needs deliberate control.
+  - id: b
+    text: All prompts are automatically anonymous.
+    explanation: Values can identify people or systems.
+  - id: c
+    text: Only output data has confidentiality concerns.
+    explanation: Inputs can also expose information.
+  correct_option: a
+  explanation: The data boundary needs deliberate control.
