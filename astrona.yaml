@@ -35,7 +35,7 @@ modules:
 - id: module-010
   title: Simplified Access to Platform Capabilities
   description: Developed reading and reasoning for Simplified Access to Platform Capabilities.
-  status: alpha
+  maturity: alpha
   content:
   - type: reading
     title: Simplified Access to Platform Capabilities
@@ -52,7 +52,7 @@ modules:
 - id: module-020
   title: API-Driven Service Catalogs
   description: Developed reading and reasoning for API-Driven Service Catalogs.
-  status: alpha
+  maturity: alpha
   content:
   - type: reading
     title: API-Driven Service Catalogs
@@ -69,7 +69,7 @@ modules:
 - id: module-030
   title: Developer Portals for Platform Adoption
   description: Developed reading and reasoning for Developer Portals for Platform Adoption.
-  status: alpha
+  maturity: alpha
   content:
   - type: reading
     title: Developer Portals for Platform Adoption
@@ -86,7 +86,7 @@ modules:
 - id: module-040
   title: AI/ML in Platform Automation
   description: Developed reading and reasoning for AI/ML in Platform Automation.
-  status: alpha
+  maturity: alpha
   content:
   - type: reading
     title: AI/ML in Platform Automation
