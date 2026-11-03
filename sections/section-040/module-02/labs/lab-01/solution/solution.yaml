@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: ml-quota
+  namespace: ml-team
+spec:
+  hard:
+    requests.nvidia.com/gpu: "2"
+    pods: "10"
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: training-low
+value: 1000
+preemptionPolicy: Never
+description: Batch training that waits for free capacity and never evicts others

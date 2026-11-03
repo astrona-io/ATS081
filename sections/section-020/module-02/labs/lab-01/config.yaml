@@ -1,0 +1,63 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Fix The probe Descriptor Lab (LAB). Graded against the live cluster. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-081-lab-020-02-01
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+
+bootstrap:
+  init:
+    - name: seed-cluster
+      description: Create the starting state, including the faults
+      type: file
+      source: bootstrap/01-seed-cluster.sh
+
+# Applied only by astrona test: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+
+validation:
+  scripts:
+    - name: lifecycle
+      description: "The probe descriptor has the lifecycle production"
+      type: file
+      source: validation/validate-lifecycle.sh
+      hint: "Change lifecycle prod to production."
+    - name: system
+      description: "The probe descriptor belongs to the system navigation"
+      type: file
+      source: validation/validate-system.sh
+      hint: "Add system: navigation under spec."
+    - name: annotation
+      description: "The probe descriptor has the annotation backstage.io/kubernetes-id with the value probe"
+      type: file
+      source: validation/validate-annotation.sh
+      hint: "Add the annotation under metadata."
+    - name: depends-on
+      description: "The probe descriptor depends on component:default/scout"
+      type: file
+      source: validation/validate-depends-on.sh
+      hint: "Add a dependsOn list with the full reference."
+    - name: owner-kept
+      description: "The probe owner is still group:default/probe-team and scout.yaml still exists"
+      type: file
+      source: validation/validate-owner-kept.sh
+      hint: "Do not remove the owner or the scout key."
+
+teardown:
+  keepCluster: false

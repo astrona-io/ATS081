@@ -35,6 +35,19 @@ This section teaches you to keep a service catalog behind an API. You model enti
     astrona submit -c .
     ```
 
+### 2. The Catalog Descriptor Format
+*   **Module Reader:** **[Module 2: The Catalog Descriptor Format](./module-02/course.md)**
+*   **Hands-on Playground:** `sections/section-020/module-02/playground` - kind cluster with the descriptors stored as text in a ConfigMap.
+    ```bash
+    astrona run --git ssh://git@github.com/astrona-io/ATS081.git -c sections/section-020/module-02/playground
+    ```
+*   **Lab:** Fix The probe Descriptor Lab - `sections/section-020/module-02/labs/lab-01` (UNTESTED)
+    ```bash
+    astrona run --git ssh://git@github.com/astrona-io/ATS081.git -c sections/section-020/module-02/labs/lab-01
+    astrona submit -c .
+    ```
+*   **Module quiz:** 10 questions in `sections/section-020/module-02/quiz.yaml`.
+
 ### Section Capstone Challenge
 *   **Comprehensive Challenge:** Catalog Health Capstone - `sections/section-020/capstone/labs/lab-01` (UNTESTED)
     ```bash

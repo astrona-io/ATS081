@@ -1,0 +1,243 @@
+# Knowledge check for module 02 of section 030.
+schema_version: 1
+kind: question_bank
+id: ats081-030-m02
+course_id: ATS081
+exam_code: CNPA
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: module
+  id: module-02
+  title: "Software Templates In Depth"
+questions:
+  - id: ats081-030-m02-q01
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain the fetch:template action"
+    source_readings:
+      - sections/section-030/module-02/course-01-the-anatomy-of-a-template.md
+    prompt: "What does the action fetch:template do?"
+    options:
+      - id: a
+        text: "It copies the skeleton files and replaces placeholders with the form values."
+        explanation: "Correct. fetch:template renders the skeleton with the values from the form."
+      - id: b
+        text: "It publishes the repository to a code host."
+        explanation: "Not correct. That is the job of a publish action."
+      - id: c
+        text: "It registers the entity in the catalog."
+        explanation: "Not correct. That is the job of catalog:register."
+      - id: d
+        text: "It reads the template from the catalog."
+        explanation: "Not correct. The template already exists when it runs."
+    correct_option: a
+    explanation: "fetch:template renders the skeleton with the values from the form."
+
+  - id: ats081-030-m02-q02
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Name the sections of a template"
+    source_readings:
+      - sections/section-030/module-02/course-01-the-anatomy-of-a-template.md
+    prompt: "Which sections does a Scaffolder template spec contain?"
+    options:
+      - id: a
+        text: "parameters, steps and output, with an owner and a type"
+        explanation: "Correct. A template has parameters for the form, steps for the work and output for the result."
+      - id: b
+        text: "build, test and deploy"
+        explanation: "Not correct. These are pipeline stages, not template sections."
+      - id: c
+        text: "requests, limits and quota"
+        explanation: "Not correct. These are Kubernetes resource settings."
+      - id: d
+        text: "routes, gateways and listeners"
+        explanation: "Not correct. These are traffic settings."
+    correct_option: a
+    explanation: "A template has parameters for the form, steps for the work and output for the result."
+
+  - id: ats081-030-m02-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Use skeleton placeholders"
+    source_readings:
+      - sections/section-030/module-02/course-01-the-anatomy-of-a-template.md
+    prompt: "Which placeholder syntax is used inside the skeleton files?"
+    options:
+      - id: a
+        text: "${{ values.name }}"
+        explanation: "Correct. Skeleton files read the values that the fetch step passes in."
+      - id: b
+        text: "${{ steps.name }}"
+        explanation: "Not correct. Steps are not available inside skeleton files."
+      - id: c
+        text: "{{ name }} only"
+        explanation: "Not correct. The skeleton uses the ${{ }} syntax with values."
+      - id: d
+        text: "$(values.name)"
+        explanation: "Not correct. This is shell syntax."
+    correct_option: a
+    explanation: "Skeleton files read the values that the fetch step passes in."
+
+  - id: ats081-030-m02-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Name the form language"
+    source_readings:
+      - sections/section-030/module-02/course-02-parameters-validation-and-form-fields.md
+    prompt: "What language describes the input form of a template?"
+    options:
+      - id: a
+        text: "JSON Schema, with ui: keys for the portal"
+        explanation: "Correct. Parameters are JSON Schema objects, and ui: keys control how fields look."
+      - id: b
+        text: "Protocol Buffers"
+        explanation: "Not correct. The form is not defined in Protocol Buffers."
+      - id: c
+        text: "SQL"
+        explanation: "Not correct. The form is not defined in SQL."
+      - id: d
+        text: "Plain text with comments"
+        explanation: "Not correct. The portal needs a schema to build the form."
+    correct_option: a
+    explanation: "Parameters are JSON Schema objects, and ui: keys control how fields look."
+
+  - id: ats081-030-m02-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Choose a picker for owners"
+    source_readings:
+      - sections/section-030/module-02/course-02-parameters-validation-and-form-fields.md
+    prompt: "Why use the OwnerPicker field instead of a text field for the owner?"
+    options:
+      - id: a
+        text: "The user can only select an existing group, so typos are impossible."
+        explanation: "Correct. A picker selects an entity that exists in the catalog."
+      - id: b
+        text: "It makes the form shorter."
+        explanation: "Not correct. The main gain is correct data."
+      - id: c
+        text: "It sends the owner to the identity provider."
+        explanation: "Not correct. It only selects from the catalog."
+      - id: d
+        text: "It is required by Kubernetes."
+        explanation: "Not correct. Kubernetes does not know the field."
+    correct_option: a
+    explanation: "A picker selects an entity that exists in the catalog."
+
+  - id: ats081-030-m02-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Apply the server-side rule to templates"
+    source_readings:
+      - sections/section-030/module-02/course-02-parameters-validation-and-form-fields.md
+    prompt: "A pattern is set on the name field in the form. A script calls the Scaffolder API directly with an invalid name. What is the lesson?"
+    options:
+      - id: a
+        text: "The form guides users; the receiving systems must also enforce the rule."
+        explanation: "Correct. A form is a convenience. Enforcement belongs on the side that receives the value."
+      - id: b
+        text: "The form always blocks the script."
+        explanation: "Not correct. Other clients do not use the form."
+      - id: c
+        text: "The pattern is ignored by the backend, so remove it."
+        explanation: "Not correct. It still helps users of the portal."
+      - id: d
+        text: "Scripts can never call the API."
+        explanation: "Not correct. The API accepts calls from other clients."
+    correct_option: a
+    explanation: "A form is a convenience. Enforcement belongs on the side that receives the value."
+
+  - id: ats081-030-m02-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Spot a missing register step"
+    source_readings:
+      - sections/section-030/module-02/course-03-steps-actions-and-outputs.md
+    prompt: "A template publishes a repository but has no catalog:register step. What happens?"
+    options:
+      - id: a
+        text: "The repository exists, and the service does not appear in the catalog."
+        explanation: "Correct. Registration is a separate step."
+      - id: b
+        text: "The portal registers it automatically."
+        explanation: "Not correct. Only the register step or discovery adds it."
+      - id: c
+        text: "The run fails at the publish step."
+        explanation: "Not correct. Publish succeeds without a register step."
+      - id: d
+        text: "The repository is deleted."
+        explanation: "Not correct. Nothing deletes it."
+    correct_option: a
+    explanation: "Registration is a separate step."
+
+  - id: ats081-030-m02-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Pass output between steps"
+    source_readings:
+      - sections/section-030/module-02/course-03-steps-actions-and-outputs.md
+    prompt: "How does the register step know the address of the new repository?"
+    options:
+      - id: a
+        text: "It reads the output of the publish step with steps['publish'].output.repoContentsUrl"
+        explanation: "Correct. A step reads earlier steps through the steps object and the step id."
+      - id: b
+        text: "It guesses the address from the name."
+        explanation: "Not correct. It needs the real address from the publish step."
+      - id: c
+        text: "The user types it in the form."
+        explanation: "Not correct. The publish step produces it."
+      - id: d
+        text: "It reads a Kubernetes Service."
+        explanation: "Not correct. Templates do not use Services."
+    correct_option: a
+    explanation: "A step reads earlier steps through the steps object and the step id."
+
+  - id: ats081-030-m02-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Reduce drift from templates"
+    source_readings:
+      - sections/section-030/module-02/course-04-template-lifecycle-versioning-testing-and-updates.md
+    prompt: "Which approach keeps existing services close to a changed template?"
+    options:
+      - id: a
+        text: "Keep fast-changing rules in a shared place such as a central pipeline."
+        explanation: "Correct. A rule kept in one central place applies to every service at once."
+      - id: b
+        text: "Assume services update themselves."
+        explanation: "Not correct. A template runs once at creation."
+      - id: c
+        text: "Delete old services."
+        explanation: "Not correct. This removes working software."
+      - id: d
+        text: "Rename the template each month."
+        explanation: "Not correct. This creates more generations, not fewer."
+    correct_option: a
+    explanation: "A rule kept in one central place applies to every service at once."
+
+  - id: ats081-030-m02-q10
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Test a template"
+    source_readings:
+      - sections/section-030/module-02/course-04-template-lifecycle-versioning-testing-and-updates.md
+    prompt: "Which check proves that a template works together with its form and skeleton before a release?"
+    options:
+      - id: a
+        text: "A dry run with sample values"
+        explanation: "Correct. A dry run renders the steps without publishing and shows the files."
+      - id: b
+        text: "Reading the file once"
+        explanation: "Not correct. A read does not render the files."
+      - id: c
+        text: "Counting the lines"
+        explanation: "Not correct. This proves nothing about behavior."
+      - id: d
+        text: "Waiting for the first user"
+        explanation: "Not correct. The first user would find the error."
+    correct_option: a
+    explanation: "A dry run renders the steps without publishing and shows the files."
+

@@ -35,6 +35,19 @@ This section teaches you to offer a platform capability as a Kubernetes API that
     astrona submit -c .
     ```
 
+### 2. Namespace-As-A-Service And Tenant Isolation
+*   **Module Reader:** **[Module 2: Namespace-As-A-Service And Tenant Isolation](./module-02/course.md)**
+*   **Hands-on Playground:** `sections/section-010/module-02/playground` - kind cluster with the tenant namespace `team-beta` with no controls.
+    ```bash
+    astrona run --git ssh://git@github.com/astrona-io/ATS081.git -c sections/section-010/module-02/playground
+    ```
+*   **Lab:** Prepare The team-beta Tenant Lab - `sections/section-010/module-02/labs/lab-01` (UNTESTED)
+    ```bash
+    astrona run --git ssh://git@github.com/astrona-io/ATS081.git -c sections/section-010/module-02/labs/lab-01
+    astrona submit -c .
+    ```
+*   **Module quiz:** 10 questions in `sections/section-010/module-02/quiz.yaml`.
+
 ### Section Capstone Challenge
 *   **Comprehensive Challenge:** Simplified Access Capstone - `sections/section-010/capstone/labs/lab-01` (UNTESTED)
     ```bash

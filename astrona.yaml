@@ -79,6 +79,51 @@ modules:
         path: sections/section-010/module-01/course-04-summary.md
 
       - type: reading
+        title: "Namespace-As-A-Service And Tenant Isolation"
+        path: sections/section-010/module-02/course.md
+      - type: reading
+        title: "The Namespace As A Tenant Boundary"
+        path: sections/section-010/module-02/course-01-the-namespace-as-a-tenant-boundary.md
+      - type: reading
+        title: "Quota And Default Limits Per Tenant"
+        path: sections/section-010/module-02/course-02-quota-and-default-limits-per-tenant.md
+      - type: reading
+        title: "Network And Pod Isolation"
+        path: sections/section-010/module-02/course-03-network-and-pod-isolation.md
+      - type: reading
+        title: "Question"
+        path: sections/section-010/module-02/labs/lab-01/question.md
+      - type: lab
+        title: "Prepare The team-beta Tenant Lab"
+        path: sections/section-010/module-02/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 25m
+        topic: tenant-isolation
+        task_kind: fix
+        tags: [namespace, resourcequota, limitrange, networkpolicy, pod-security]
+        learning_goals:
+          - Label a namespace as a tenant and enforce the baseline Pod Security level
+          - Set a quota and default limits for the namespace
+          - Deny ingress by default with a NetworkPolicy
+        resources:
+          - name: "Resource Quotas"
+            url: https://kubernetes.io/docs/concepts/policy/resource-quotas/
+          - name: "Network Policies"
+            url: https://kubernetes.io/docs/concepts/services-networking/network-policies/
+          - name: "Pod Security Admission"
+            url: https://kubernetes.io/docs/concepts/security/pod-security-admission/
+      - type: reading
+        title: "Onboarding A Tenant As One Bundle"
+        path: sections/section-010/module-02/course-04-onboarding-a-tenant-as-one-bundle.md
+      - type: reading
+        title: "Summary"
+        path: sections/section-010/module-02/course-05-summary.md
+      - type: quiz
+        title: "Module Check: Namespace-As-A-Service And Tenant Isolation"
+        path: sections/section-010/module-02/quiz.yaml
+        pass_score: 70
+
+      - type: reading
         title: "Question"
         path: sections/section-010/capstone/labs/lab-01/question.md
       - type: lab
@@ -151,6 +196,49 @@ modules:
         path: sections/section-020/module-01/course-04-summary.md
 
       - type: reading
+        title: "The Catalog Descriptor Format"
+        path: sections/section-020/module-02/course.md
+      - type: reading
+        title: "The Anatomy Of A Descriptor"
+        path: sections/section-020/module-02/course-01-the-anatomy-of-a-descriptor.md
+      - type: reading
+        title: "Spec Fields Of The Main Entity Kinds"
+        path: sections/section-020/module-02/course-02-spec-fields-of-the-main-entity-kinds.md
+      - type: reading
+        title: "Question"
+        path: sections/section-020/module-02/labs/lab-01/question.md
+      - type: lab
+        title: "Fix The probe Descriptor Lab"
+        path: sections/section-020/module-02/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 25m
+        topic: catalog-descriptor
+        task_kind: fix
+        tags: [catalog, descriptor, lifecycle, owner, dependsOn]
+        learning_goals:
+          - Use an agreed lifecycle value
+          - Add the system and a kubernetes-id annotation
+          - Declare a dependency with a full entity reference
+        resources:
+          - name: "ConfigMaps"
+            url: https://kubernetes.io/docs/concepts/configuration/configmap/
+          - name: "Labels and Selectors"
+            url: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+      - type: reading
+        title: "Entity References And Relations"
+        path: sections/section-020/module-02/course-03-entity-references-and-relations.md
+      - type: reading
+        title: "Locations, Annotations And Validation"
+        path: sections/section-020/module-02/course-04-locations-annotations-and-validation.md
+      - type: reading
+        title: "Summary"
+        path: sections/section-020/module-02/course-05-summary.md
+      - type: quiz
+        title: "Module Check: The Catalog Descriptor Format"
+        path: sections/section-020/module-02/quiz.yaml
+        pass_score: 70
+
+      - type: reading
         title: "Question"
         path: sections/section-020/capstone/labs/lab-01/question.md
       - type: lab
@@ -221,6 +309,49 @@ modules:
         path: sections/section-030/module-01/course-04-summary.md
 
       - type: reading
+        title: "Software Templates In Depth"
+        path: sections/section-030/module-02/course.md
+      - type: reading
+        title: "The Anatomy Of A Template"
+        path: sections/section-030/module-02/course-01-the-anatomy-of-a-template.md
+      - type: reading
+        title: "Parameters, Validation And Form Fields"
+        path: sections/section-030/module-02/course-02-parameters-validation-and-form-fields.md
+      - type: reading
+        title: "Steps, Actions And Outputs"
+        path: sections/section-030/module-02/course-03-steps-actions-and-outputs.md
+      - type: reading
+        title: "Question"
+        path: sections/section-030/module-02/labs/lab-01/question.md
+      - type: lab
+        title: "Complete The Starfleet Service Template Lab"
+        path: sections/section-030/module-02/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 25m
+        topic: software-templates
+        task_kind: fix
+        tags: [scaffolder, template, parameters, steps, catalog-register]
+        learning_goals:
+          - Mark the name and the owner as required and limit the name with a pattern
+          - Add the publish and register steps in the right order
+          - Give the user an output link to the new catalog entity
+        resources:
+          - name: "ConfigMaps"
+            url: https://kubernetes.io/docs/concepts/configuration/configmap/
+          - name: "Labels and Selectors"
+            url: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+      - type: reading
+        title: "Template Lifecycle: Versioning, Testing And Updates"
+        path: sections/section-030/module-02/course-04-template-lifecycle-versioning-testing-and-updates.md
+      - type: reading
+        title: "Summary"
+        path: sections/section-030/module-02/course-05-summary.md
+      - type: quiz
+        title: "Module Check: Software Templates In Depth"
+        path: sections/section-030/module-02/quiz.yaml
+        pass_score: 70
+
+      - type: reading
         title: "Question"
         path: sections/section-030/capstone/labs/lab-01/question.md
       - type: lab
@@ -289,6 +420,51 @@ modules:
       - type: reading
         title: "Summary"
         path: sections/section-040/module-01/course-04-summary.md
+
+      - type: reading
+        title: "Platform Capabilities For Machine Learning Workloads"
+        path: sections/section-040/module-02/course.md
+      - type: reading
+        title: "The ML Lifecycle And What The Platform Provides"
+        path: sections/section-040/module-02/course-01-the-ml-lifecycle-and-what-the-platform-provides.md
+      - type: reading
+        title: "Accelerators As Extended Resources"
+        path: sections/section-040/module-02/course-02-accelerators-as-extended-resources.md
+      - type: reading
+        title: "Training Jobs, Queues And Priorities"
+        path: sections/section-040/module-02/course-03-training-jobs-queues-and-priorities.md
+      - type: reading
+        title: "Question"
+        path: sections/section-040/module-02/labs/lab-01/question.md
+      - type: lab
+        title: "Limit GPUs And Clean Up Training Jobs Lab"
+        path: sections/section-040/module-02/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 25m
+        topic: ml-platform
+        task_kind: fix
+        tags: [resourcequota, extended-resources, priorityclass, job, gpu]
+        learning_goals:
+          - Limit the GPUs and Pods of the ML namespace with a ResourceQuota
+          - Create a low priority class that never preempts
+          - Give the suspended training Job a clean-up time
+        resources:
+          - name: "Resource Quotas"
+            url: https://kubernetes.io/docs/concepts/policy/resource-quotas/
+          - name: "Jobs"
+            url: https://kubernetes.io/docs/concepts/workloads/controllers/job/
+          - name: "Pod Priority and Preemption"
+            url: https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/
+      - type: reading
+        title: "Serving Models And Platform Guardrails"
+        path: sections/section-040/module-02/course-04-serving-models-and-platform-guardrails.md
+      - type: reading
+        title: "Summary"
+        path: sections/section-040/module-02/course-05-summary.md
+      - type: quiz
+        title: "Module Check: Platform Capabilities For Machine Learning Workloads"
+        path: sections/section-040/module-02/quiz.yaml
+        pass_score: 70
 
       - type: reading
         title: "Question"

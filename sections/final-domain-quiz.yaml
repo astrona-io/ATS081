@@ -288,3 +288,187 @@ questions:
     correct_option: c
     explanation: "Correct. 5 divided by 6 is about 83, and the sample is too small."
 
+  - id: ats081-final-q13
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Fix Pods rejected by a compute quota"
+    source_readings:
+      - sections/section-010/module-02/course-02-quota-and-default-limits-per-tenant.md
+    prompt: "A new tenant namespace has a ResourceQuota for requests.cpu but developers report that Pods without a resources block are rejected. What is the smallest fix?"
+    options:
+      - id: a
+        text: "Add a LimitRange with default requests and limits."
+        explanation: "Correct. A LimitRange adds defaults at admission, so the quota can count the values."
+      - id: b
+        text: "Remove the quota."
+        explanation: "Not correct. This removes the guardrail."
+      - id: c
+        text: "Ask developers to use a portal form."
+        explanation: "Not correct. A form does not change what the API server requires."
+      - id: d
+        text: "Label the namespace with a tenant label."
+        explanation: "Not correct. A label changes no admission rule."
+    correct_option: a
+    explanation: "A LimitRange adds defaults at admission, so the quota can count the values."
+
+  - id: ats081-final-q14
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Diagnose an ineffective NetworkPolicy"
+    source_readings:
+      - sections/section-010/module-02/course-03-network-and-pod-isolation.md
+    prompt: "A default-deny ingress NetworkPolicy exists in a tenant namespace, yet a Pod in another namespace still reaches its Pods. What should the platform team check first?"
+    options:
+      - id: a
+        text: "Whether the network plugin enforces NetworkPolicy."
+        explanation: "Correct. The plugin enforces policies, and the API server accepts the object even when nothing enforces it."
+      - id: b
+        text: "Whether the namespace has a quota."
+        explanation: "Not correct. A quota does not affect traffic."
+      - id: c
+        text: "Whether the policy name ends in deny."
+        explanation: "Not correct. Names have no meaning to the plugin."
+      - id: d
+        text: "Whether the Pod has a readiness probe."
+        explanation: "Not correct. Probes do not affect policy."
+    correct_option: a
+    explanation: "The plugin enforces policies, and the API server accepts the object even when nothing enforces it."
+
+  - id: ats081-final-q15
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Find a dangling reference"
+    source_readings:
+      - sections/section-020/module-02/course-03-entity-references-and-relations.md
+    prompt: "A catalog report shows a Component whose dependsOn names component:default/scouts, but the entity is named scout. Which statement is correct?"
+    options:
+      - id: a
+        text: "The reference dangles, and the catalog still stores the relation."
+        explanation: "Correct. A reference to a missing entity is a dangling reference."
+      - id: b
+        text: "The catalog renames the entity to scouts."
+        explanation: "Not correct. The catalog does not change names."
+      - id: c
+        text: "The Component loses its owner."
+        explanation: "Not correct. Owner and dependency are separate fields."
+      - id: d
+        text: "The reverse relation is created on scout."
+        explanation: "Not correct. The target scouts does not exist."
+    correct_option: a
+    explanation: "A reference to a missing entity is a dangling reference."
+
+  - id: ats081-final-q16
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Separate facts from derived relations"
+    source_readings:
+      - sections/section-020/module-02/course-03-entity-references-and-relations.md
+    prompt: "A team writes ownedBy relations by hand in its catalog-info.yaml. What is the problem?"
+    options:
+      - id: a
+        text: "Descriptors state facts such as spec.owner, and the catalog derives relations itself."
+        explanation: "Correct. Facts go in descriptors and relations are derived."
+      - id: b
+        text: "Relations are only allowed in Location entities."
+        explanation: "Not correct. A Location lists targets, not relations."
+      - id: c
+        text: "ownedBy is always rejected by YAML."
+        explanation: "Not correct. The format is valid YAML, but it is not a descriptor field."
+      - id: d
+        text: "Relations must be written in the portal."
+        explanation: "Not correct. They are derived, not written."
+    correct_option: a
+    explanation: "Facts go in descriptors and relations are derived."
+
+  - id: ats081-final-q17
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Complete a template with registration"
+    source_readings:
+      - sections/section-030/module-02/course-03-steps-actions-and-outputs.md
+    prompt: "A template publishes a repository, but new services never show up in the portal catalog. Which change fixes this?"
+    options:
+      - id: a
+        text: "Add a catalog:register step after the publish step."
+        explanation: "Correct. Registration is a separate action that needs the output of the publish step."
+      - id: b
+        text: "Add a longer description to the template."
+        explanation: "Not correct. A description has no effect on registration."
+      - id: c
+        text: "Move the owner to the first page."
+        explanation: "Not correct. The owner field does not register entities."
+      - id: d
+        text: "Change apiVersion of the template."
+        explanation: "Not correct. The version does not add steps."
+    correct_option: a
+    explanation: "Registration is a separate action that needs the output of the publish step."
+
+  - id: ats081-final-q18
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Place enforcement beyond the form"
+    source_readings:
+      - sections/section-030/module-02/course-02-parameters-validation-and-form-fields.md
+    prompt: "The portal form for a template limits the service name with a pattern. A script calls the Scaffolder API with an invalid name. Where must the rule also be enforced?"
+    options:
+      - id: a
+        text: "On the system that receives the value, such as the repository host or an admission policy."
+        explanation: "Correct. A form guides users, and the receiving side enforces."
+      - id: b
+        text: "Only in the form."
+        explanation: "Not correct. Other clients skip the form."
+      - id: c
+        text: "Only in the documentation."
+        explanation: "Not correct. Documentation enforces nothing."
+      - id: d
+        text: "In the portal theme."
+        explanation: "Not correct. Themes only change appearance."
+    correct_option: a
+    explanation: "A form guides users, and the receiving side enforces."
+
+  - id: ats081-final-q19
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Predict the state of an unschedulable GPU Pod"
+    source_readings:
+      - sections/section-040/module-02/course-02-accelerators-as-extended-resources.md
+    prompt: "A cluster has no GPU nodes. A Pod with limits nvidia.com/gpu: 1 is created in a namespace. What state does the Pod reach?"
+    options:
+      - id: a
+        text: "Pending, with a FailedScheduling event."
+        explanation: "Correct. The scheduler finds no node that advertises the resource."
+      - id: b
+        text: "Running on the CPU."
+        explanation: "Not correct. Nothing replaces the device."
+      - id: c
+        text: "Succeeded."
+        explanation: "Not correct. The container never starts."
+      - id: d
+        text: "Terminating."
+        explanation: "Not correct. The Pod is not removed."
+    correct_option: a
+    explanation: "The scheduler finds no node that advertises the resource."
+
+  - id: ats081-final-q20
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Combine quota, priority and queueing"
+    source_readings:
+      - sections/section-040/module-02/course-03-training-jobs-queues-and-priorities.md
+    prompt: "The ML team submits many training Jobs and wants fair sharing of GPUs between teams without anyone evicting a running Job. Which combination fits?"
+    options:
+      - id: a
+        text: "A quota per namespace, a PriorityClass with preemptionPolicy Never and a queueing system that uses suspend."
+        explanation: "Correct. Quota limits each team, the policy avoids eviction and the queue admits Jobs when capacity is free."
+      - id: b
+        text: "One shared namespace with no limits."
+        explanation: "Not correct. This lets one team take all devices."
+      - id: c
+        text: "A Deployment with a high priority for every Job."
+        explanation: "Not correct. Training is a batch workload, and a high priority could evict others."
+      - id: d
+        text: "Manual messages between teams."
+        explanation: "Not correct. This does not scale."
+    correct_option: a
+    explanation: "Quota limits each team, the policy avoids eviction and the queue admits Jobs when capacity is free."
+

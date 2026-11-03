@@ -1,0 +1,243 @@
+# Knowledge check for module 02 of section 020.
+schema_version: 1
+kind: question_bank
+id: ats081-020-m02
+course_id: ATS081
+exam_code: CNPA
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: module
+  id: module-02
+  title: "The Catalog Descriptor Format"
+questions:
+  - id: ats081-020-m02-q01
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Name the fields of an entity identity"
+    source_readings:
+      - sections/section-020/module-02/course-01-the-anatomy-of-a-descriptor.md
+    prompt: "Which three fields give an entity its identity in a Backstage catalog?"
+    options:
+      - id: a
+        text: "kind, namespace and name"
+        explanation: "Correct. The identity is kind, namespace and name, for example component:default/scout."
+      - id: b
+        text: "apiVersion, kind and owner"
+        explanation: "Not correct. The owner is a fact about the entity, not part of its identity."
+      - id: c
+        text: "name, lifecycle and system"
+        explanation: "Not correct. Lifecycle and system are facts in spec."
+      - id: d
+        text: "title, tags and description"
+        explanation: "Not correct. These help people search; they do not identify."
+    correct_option: a
+    explanation: "The identity is kind, namespace and name, for example component:default/scout."
+
+  - id: ats081-020-m02-q02
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain how relations are derived"
+    source_readings:
+      - sections/section-020/module-02/course-03-entity-references-and-relations.md
+    prompt: "What does a catalog do when it reads spec.owner on a Component?"
+    options:
+      - id: a
+        text: "It creates the relation ownedBy and the reverse relation ownerOf."
+        explanation: "Correct. Relations are derived from fields, and the reverse relation is created too."
+      - id: b
+        text: "It copies the owner into every Deployment."
+        explanation: "Not correct. The catalog reads descriptors; it does not change workloads."
+      - id: c
+        text: "It ignores the field until a Location is added."
+        explanation: "Not correct. The field is read when the entity is read."
+      - id: d
+        text: "It deletes the old owner."
+        explanation: "Not correct. It only derives relations."
+    correct_option: a
+    explanation: "Relations are derived from fields, and the reverse relation is created too."
+
+  - id: ats081-020-m02-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Use the agreed lifecycle values"
+    source_readings:
+      - sections/section-020/module-02/course-02-spec-fields-of-the-main-entity-kinds.md
+    prompt: "Which lifecycle value is part of the usual agreed set?"
+    options:
+      - id: a
+        text: "production"
+        explanation: "Correct. The usual values are experimental, production and deprecated."
+      - id: b
+        text: "prod"
+        explanation: "Not correct. This is not a standard value, so filters would not match it."
+      - id: c
+        text: "live"
+        explanation: "Not correct. This is not a standard value."
+      - id: d
+        text: "stable-v2"
+        explanation: "Not correct. This is not a standard value."
+    correct_option: a
+    explanation: "The usual values are experimental, production and deprecated."
+
+  - id: ats081-020-m02-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Write an entity reference"
+    source_readings:
+      - sections/section-020/module-02/course-03-entity-references-and-relations.md
+    prompt: "What is the full form of an entity reference?"
+    options:
+      - id: a
+        text: "kind:namespace/name"
+        explanation: "Correct. The form is kind:namespace/name, for example component:default/scout."
+      - id: b
+        text: "namespace.name.kind"
+        explanation: "Not correct. This is not the reference syntax."
+      - id: c
+        text: "kind/name@namespace"
+        explanation: "Not correct. This is not the reference syntax."
+      - id: d
+        text: "name#kind"
+        explanation: "Not correct. This is not the reference syntax."
+    correct_option: a
+    explanation: "The form is kind:namespace/name, for example component:default/scout."
+
+  - id: ats081-020-m02-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Use default kinds in references"
+    source_readings:
+      - sections/section-020/module-02/course-03-entity-references-and-relations.md
+    prompt: "In spec.owner a team writes the value scout-team. Which entity does the catalog use?"
+    options:
+      - id: a
+        text: "group:default/scout-team, because the default kind of owner is Group"
+        explanation: "Correct. Fields have a default kind and namespace, and the owner field defaults to Group."
+      - id: b
+        text: "component:default/scout-team"
+        explanation: "Not correct. The default kind of owner is Group."
+      - id: c
+        text: "user:default/scout-team"
+        explanation: "Not correct. The default kind of owner is Group."
+      - id: d
+        text: "None, short names are not allowed."
+        explanation: "Not correct. Short names are allowed when the defaults apply."
+    correct_option: a
+    explanation: "Fields have a default kind and namespace, and the owner field defaults to Group."
+
+  - id: ats081-020-m02-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Recognise a dangling reference"
+    source_readings:
+      - sections/section-020/module-02/course-03-entity-references-and-relations.md
+    prompt: "A component lists dependsOn: component:default/scouts but the entity is named scout. What is this called?"
+    options:
+      - id: a
+        text: "A dangling reference"
+        explanation: "Correct. A reference to an entity that does not exist is dangling."
+      - id: b
+        text: "A circular dependency"
+        explanation: "Not correct. A cycle needs the entities to point at each other."
+      - id: c
+        text: "A duplicate entity"
+        explanation: "Not correct. No second entity exists."
+      - id: d
+        text: "An orphan entity"
+        explanation: "Not correct. An orphan is an entity that nothing owns or references."
+    correct_option: a
+    explanation: "A reference to an entity that does not exist is dangling."
+
+  - id: ats081-020-m02-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain the Location kind"
+    source_readings:
+      - sections/section-020/module-02/course-04-locations-annotations-and-validation.md
+    prompt: "What does a Location entity do?"
+    options:
+      - id: a
+        text: "It tells the catalog where to read more descriptors."
+        explanation: "Correct. A Location lists targets, such as URLs of catalog-info.yaml files."
+      - id: b
+        text: "It stores the physical region of a service."
+        explanation: "Not correct. A Location is about descriptor files."
+      - id: c
+        text: "It sets the owner of all entities."
+        explanation: "Not correct. It lists targets only."
+      - id: d
+        text: "It deploys the service."
+        explanation: "Not correct. The catalog does not deploy."
+    correct_option: a
+    explanation: "A Location lists targets, such as URLs of catalog-info.yaml files."
+
+  - id: ats081-020-m02-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Name the annotation for Kubernetes workloads"
+    source_readings:
+      - sections/section-020/module-02/course-04-locations-annotations-and-validation.md
+    prompt: "Which annotation links a catalog entity to Kubernetes workloads?"
+    options:
+      - id: a
+        text: "backstage.io/kubernetes-id"
+        explanation: "Correct. The kubernetes-id annotation matches workloads that carry the same label value."
+      - id: b
+        text: "backstage.io/source-location"
+        explanation: "Not correct. This points at the code repository."
+      - id: c
+        text: "backstage.io/techdocs-ref"
+        explanation: "Not correct. This points at documentation."
+      - id: d
+        text: "backstage.io/managed-by-location"
+        explanation: "Not correct. The catalog sets this itself."
+    correct_option: a
+    explanation: "The kubernetes-id annotation matches workloads that carry the same label value."
+
+  - id: ats081-020-m02-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Place validation in the pipeline"
+    source_readings:
+      - sections/section-020/module-02/course-04-locations-annotations-and-validation.md
+    prompt: "Where is the best place to validate a descriptor?"
+    options:
+      - id: a
+        text: "In the pull request, before the file is merged."
+        explanation: "Correct. A check in the pipeline stops wrong facts at the cheapest point."
+      - id: b
+        text: "After the catalog has stored it."
+        explanation: "Not correct. Errors then reach users first."
+      - id: c
+        text: "Only when a user complains."
+        explanation: "Not correct. Late checks hide quality problems."
+      - id: d
+        text: "Never; the catalog repairs it."
+        explanation: "Not correct. The catalog does not repair wrong facts."
+    correct_option: a
+    explanation: "A check in the pipeline stops wrong facts at the cheapest point."
+
+  - id: ats081-020-m02-q10
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Order System and Domain"
+    source_readings:
+      - sections/section-020/module-02/course-02-spec-fields-of-the-main-entity-kinds.md
+    prompt: "Which kind groups several systems that belong to one business area?"
+    options:
+      - id: a
+        text: "Domain"
+        explanation: "Correct. A Domain groups systems, and a System groups components, APIs and resources."
+      - id: b
+        text: "Component"
+        explanation: "Not correct. A Component is one piece of software."
+      - id: c
+        text: "Resource"
+        explanation: "Not correct. A Resource is infrastructure."
+      - id: d
+        text: "Location"
+        explanation: "Not correct. A Location lists descriptor files."
+    correct_option: a
+    explanation: "A Domain groups systems, and a System groups components, APIs and resources."
+

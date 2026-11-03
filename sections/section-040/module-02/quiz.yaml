@@ -1,0 +1,243 @@
+# Knowledge check for module 02 of section 040.
+schema_version: 1
+kind: question_bank
+id: ats081-040-m02
+course_id: ATS081
+exam_code: CNPA
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: module
+  id: module-02
+  title: "Platform Capabilities For Machine Learning Workloads"
+questions:
+  - id: ats081-040-m02-q01
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Name the GPU extended resource"
+    source_readings:
+      - sections/section-040/module-02/course-02-accelerators-as-extended-resources.md
+    prompt: "Which resource name does the NVIDIA device plugin advertise for a GPU?"
+    options:
+      - id: a
+        text: "nvidia.com/gpu"
+        explanation: "Correct. The plugin advertises nvidia.com/gpu as an extended resource."
+      - id: b
+        text: "kubernetes.io/gpu"
+        explanation: "Not correct. This is not the name the plugin advertises."
+      - id: c
+        text: "gpu.nvidia.local"
+        explanation: "Not correct. This is not the name the plugin advertises."
+      - id: d
+        text: "cpu.nvidia.com"
+        explanation: "Not correct. This is not the name the plugin advertises."
+    correct_option: a
+    explanation: "The plugin advertises nvidia.com/gpu as an extended resource."
+
+  - id: ats081-040-m02-q02
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Request a GPU"
+    source_readings:
+      - sections/section-040/module-02/course-02-accelerators-as-extended-resources.md
+    prompt: "A container needs one GPU. Where does it state this?"
+    options:
+      - id: a
+        text: "In resources.limits, as nvidia.com/gpu: 1"
+        explanation: "Correct. Extended resources are set in the container resources, normally in limits."
+      - id: b
+        text: "In a ConfigMap"
+        explanation: "Not correct. Resources are set in the container spec."
+      - id: c
+        text: "In an annotation on the node"
+        explanation: "Not correct. The Pod states what it needs."
+      - id: d
+        text: "In the Service"
+        explanation: "Not correct. A Service does not request devices."
+    correct_option: a
+    explanation: "Extended resources are set in the container resources, normally in limits."
+
+  - id: ats081-040-m02-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Predict the result of an unavailable resource"
+    source_readings:
+      - sections/section-040/module-02/course-02-accelerators-as-extended-resources.md
+    prompt: "A Pod asks for nvidia.com/gpu: 1 and no node advertises it. What happens?"
+    options:
+      - id: a
+        text: "The Pod stays Pending with a FailedScheduling event."
+        explanation: "Correct. The scheduler cannot find a node with the resource."
+      - id: b
+        text: "The Pod runs on the CPU."
+        explanation: "Not correct. Nothing replaces the device."
+      - id: c
+        text: "The API server deletes the Pod."
+        explanation: "Not correct. It stays in the Pending state."
+      - id: d
+        text: "The Pod runs and fails later."
+        explanation: "Not correct. It is not placed at all."
+    correct_option: a
+    explanation: "The scheduler cannot find a node with the resource."
+
+  - id: ats081-040-m02-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Write a GPU quota"
+    source_readings:
+      - sections/section-040/module-02/course-02-accelerators-as-extended-resources.md
+    prompt: "Which ResourceQuota key limits the number of GPUs in a namespace?"
+    options:
+      - id: a
+        text: "requests.nvidia.com/gpu"
+        explanation: "Correct. Quotas for extended resources use the requests. prefix."
+      - id: b
+        text: "limits.nvidia.com/gpu"
+        explanation: "Not correct. For extended resources only the requests. prefix is allowed."
+      - id: c
+        text: "gpu.count"
+        explanation: "Not correct. This key does not exist."
+      - id: d
+        text: "nvidia.com/quota"
+        explanation: "Not correct. This key does not exist."
+    correct_option: a
+    explanation: "Quotas for extended resources use the requests. prefix."
+
+  - id: ats081-040-m02-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Keep ordinary Pods off GPU nodes"
+    source_readings:
+      - sections/section-040/module-02/course-02-accelerators-as-extended-resources.md
+    prompt: "Why combine a taint on GPU nodes with a toleration in some Pods?"
+    options:
+      - id: a
+        text: "Only the Pods that need GPUs are placed on the expensive nodes."
+        explanation: "Correct. A taint repels Pods that do not tolerate it."
+      - id: b
+        text: "It makes the GPUs faster."
+        explanation: "Not correct. Taints control placement, not speed."
+      - id: c
+        text: "It removes the need for a quota."
+        explanation: "Not correct. Taints do not count devices."
+      - id: d
+        text: "It encrypts traffic."
+        explanation: "Not correct. Taints do not affect traffic."
+    correct_option: a
+    explanation: "A taint repels Pods that do not tolerate it."
+
+  - id: ats081-040-m02-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain Job clean-up"
+    source_readings:
+      - sections/section-040/module-02/course-03-training-jobs-queues-and-priorities.md
+    prompt: "What does ttlSecondsAfterFinished do on a Job?"
+    options:
+      - id: a
+        text: "It removes the Job and its Pods after the set time once the Job has finished."
+        explanation: "Correct. It cleans up finished Jobs."
+      - id: b
+        text: "It stops a Job after the set time."
+        explanation: "Not correct. That is activeDeadlineSeconds."
+      - id: c
+        text: "It limits the number of retries."
+        explanation: "Not correct. That is backoffLimit."
+      - id: d
+        text: "It starts the Job after a delay."
+        explanation: "Not correct. The field acts after the Job finishes."
+    correct_option: a
+    explanation: "It cleans up finished Jobs."
+
+  - id: ats081-040-m02-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain the preemption policy"
+    source_readings:
+      - sections/section-040/module-02/course-03-training-jobs-queues-and-priorities.md
+    prompt: "What does preemptionPolicy: Never mean in a PriorityClass?"
+    options:
+      - id: a
+        text: "Pods of the class queue by priority but never evict running Pods."
+        explanation: "Correct. The class gets queue priority without the right to evict."
+      - id: b
+        text: "Pods of the class can never be scheduled."
+        explanation: "Not correct. They are scheduled when there is room."
+      - id: c
+        text: "Pods of the class are always evicted first."
+        explanation: "Not correct. That depends on priority, not this policy."
+      - id: d
+        text: "The class has no value."
+        explanation: "Not correct. The value stays."
+    correct_option: a
+    explanation: "The class gets queue priority without the right to evict."
+
+  - id: ats081-040-m02-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Describe Job queueing"
+    source_readings:
+      - sections/section-040/module-02/course-03-training-jobs-queues-and-priorities.md
+    prompt: "How does a queueing system such as Kueue decide when a Job may start?"
+    options:
+      - id: a
+        text: "It keeps the Job suspended and sets suspend to false when resources are free."
+        explanation: "Correct. The suspend field lets a controller hold a Job until it is admitted."
+      - id: b
+        text: "It deletes and recreates the Job."
+        explanation: "Not correct. It uses the suspend field."
+      - id: c
+        text: "It changes the container image."
+        explanation: "Not correct. The image is not touched."
+      - id: d
+        text: "It edits the node taints."
+        explanation: "Not correct. Nodes are not changed."
+    correct_option: a
+    explanation: "The suspend field lets a controller hold a Job until it is admitted."
+
+  - id: ats081-040-m02-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain probes for model servers"
+    source_readings:
+      - sections/section-040/module-02/course-04-serving-models-and-platform-guardrails.md
+    prompt: "Why is a readiness probe especially important for a model server?"
+    options:
+      - id: a
+        text: "Loading a large model takes time, and requests must not arrive before it is loaded."
+        explanation: "Correct. A not-ready Pod must not receive traffic while it loads the model."
+      - id: b
+        text: "Models cannot run without probes."
+        explanation: "Not correct. Kubernetes does not require probes."
+      - id: c
+        text: "The probe makes the model more accurate."
+        explanation: "Not correct. Probes do not affect quality."
+      - id: d
+        text: "Probes reduce GPU use."
+        explanation: "Not correct. Probes do not affect devices."
+    correct_option: a
+    explanation: "A not-ready Pod must not receive traffic while it loads the model."
+
+  - id: ats081-040-m02-q10
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Choose a safe model rollout"
+    source_readings:
+      - sections/section-040/module-02/course-04-serving-models-and-platform-guardrails.md
+    prompt: "Which rollout pattern sends a copy of real requests to a new model and drops its answers?"
+    options:
+      - id: a
+        text: "A shadow deployment"
+        explanation: "Correct. A shadow deployment compares results without exposing them to users."
+      - id: b
+        text: "A canary"
+        explanation: "Not correct. A canary sends real answers to a small share of users."
+      - id: c
+        text: "A rolling restart"
+        explanation: "Not correct. This replaces Pods of the same version."
+      - id: d
+        text: "A blue-green switch"
+        explanation: "Not correct. This switches all traffic at once."
+    correct_option: a
+    explanation: "A shadow deployment compares results without exposing them to users."
+

@@ -35,6 +35,19 @@ This section teaches you to place an AI assistant in platform automation without
     astrona submit -c .
     ```
 
+### 2. Platform Capabilities For Machine Learning Workloads
+*   **Module Reader:** **[Module 2: Platform Capabilities For Machine Learning Workloads](./module-02/course.md)**
+*   **Hands-on Playground:** `sections/section-040/module-02/playground` - kind cluster with the namespace `ml-team` with a suspended training Job.
+    ```bash
+    astrona run --git ssh://git@github.com/astrona-io/ATS081.git -c sections/section-040/module-02/playground
+    ```
+*   **Lab:** Limit GPUs And Clean Up Training Jobs Lab - `sections/section-040/module-02/labs/lab-01` (UNTESTED)
+    ```bash
+    astrona run --git ssh://git@github.com/astrona-io/ATS081.git -c sections/section-040/module-02/labs/lab-01
+    astrona submit -c .
+    ```
+*   **Module quiz:** 10 questions in `sections/section-040/module-02/quiz.yaml`.
+
 ### Section Capstone Challenge
 *   **Comprehensive Challenge:** Assistant Evaluation Capstone - `sections/section-040/capstone/labs/lab-01` (UNTESTED)
     ```bash

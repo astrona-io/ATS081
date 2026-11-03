@@ -1,0 +1,63 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Complete The Starfleet Service Template Lab (LAB). Graded against the live cluster. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-081-lab-030-02-01
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+
+bootstrap:
+  init:
+    - name: seed-cluster
+      description: Create the starting state, including the faults
+      type: file
+      source: bootstrap/01-seed-cluster.sh
+
+# Applied only by astrona test: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+
+validation:
+  scripts:
+    - name: required
+      description: "The parameters name and owner are in a required list"
+      type: file
+      source: validation/validate-required.sh
+      hint: "Add a required list with name and owner on the parameters page."
+    - name: pattern
+      description: "The parameter name has a pattern"
+      type: file
+      source: validation/validate-pattern.sh
+      hint: "Add a pattern with a regular expression to the name property."
+    - name: publish
+      description: "The template has a step with the action publish:github"
+      type: file
+      source: validation/validate-publish.sh
+      hint: "Add a step with action publish:github after the fetch step."
+    - name: register
+      description: "The catalog:register step comes after the publish:github step"
+      type: file
+      source: validation/validate-register.sh
+      hint: "Put the register step after the publish step."
+    - name: output-link
+      description: "The output has a link with an entityRef"
+      type: file
+      source: validation/validate-output-link.sh
+      hint: "Add an output section with a link that has an entityRef."
+
+teardown:
+  keepCluster: false

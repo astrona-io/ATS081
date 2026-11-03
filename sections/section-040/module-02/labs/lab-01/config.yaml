@@ -1,0 +1,58 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Limit GPUs And Clean Up Training Jobs Lab (LAB). Graded against the live cluster. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-081-lab-040-02-01
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+
+bootstrap:
+  init:
+    - name: seed-cluster
+      description: Create the starting state, including the faults
+      type: file
+      source: bootstrap/01-seed-cluster.sh
+
+# Applied only by astrona test: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+
+validation:
+  scripts:
+    - name: gpu-quota
+      description: "The ResourceQuota ml-quota allows 2 GPUs and 10 pods in ml-team"
+      type: file
+      source: validation/validate-gpu-quota.sh
+      hint: "Create the quota in ml-team with requests.nvidia.com/gpu 2 and pods 10."
+    - name: priority-class
+      description: "The PriorityClass training-low has the value 1000 and the preemption policy Never"
+      type: file
+      source: validation/validate-priority-class.sh
+      hint: "Set value: 1000 and preemptionPolicy: Never."
+    - name: job-ttl
+      description: "The Job retrain has ttlSecondsAfterFinished 3600"
+      type: file
+      source: validation/validate-job-ttl.sh
+      hint: "Patch the Job with ttlSecondsAfterFinished 3600."
+    - name: job-suspended
+      description: "The Job retrain is still suspended"
+      type: file
+      source: validation/validate-job-suspended.sh
+      hint: "Do not resume the Job."
+
+teardown:
+  keepCluster: false

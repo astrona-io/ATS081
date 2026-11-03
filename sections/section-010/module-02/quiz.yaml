@@ -1,0 +1,243 @@
+# Knowledge check for module 02 of section 010.
+schema_version: 1
+kind: question_bank
+id: ats081-010-m02
+course_id: ATS081
+exam_code: CNPA
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: module
+  id: module-02
+  title: "Namespace-As-A-Service And Tenant Isolation"
+questions:
+  - id: ats081-010-m02-q01
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain what a namespace does and does not isolate"
+    source_readings:
+      - sections/section-010/module-02/course-01-the-namespace-as-a-tenant-boundary.md
+    prompt: "Two Pods in different namespaces of the same cluster, with no NetworkPolicy anywhere. What happens when one Pod sends a request to a Service in the other namespace?"
+    options:
+      - id: a
+        text: "The request succeeds, because namespaces do not isolate network traffic by themselves."
+        explanation: "Correct. Without a NetworkPolicy every Pod accepts traffic from every other Pod."
+      - id: b
+        text: "The request fails, because namespaces always block traffic."
+        explanation: "Not correct. Namespaces scope names and policy. They do not block traffic."
+      - id: c
+        text: "The request fails until a ResourceQuota is set."
+        explanation: "Not correct. A quota limits resources, not traffic."
+      - id: d
+        text: "The request succeeds only through an Ingress."
+        explanation: "Not correct. Pods reach Services directly inside the cluster."
+    correct_option: a
+    explanation: "Without a NetworkPolicy every Pod accepts traffic from every other Pod."
+
+  - id: ats081-010-m02-q02
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Tell namespaced and cluster-scoped kinds apart"
+    source_readings:
+      - sections/section-010/module-02/course-01-the-namespace-as-a-tenant-boundary.md
+    prompt: "Which object kind is cluster-scoped and has no namespace?"
+    options:
+      - id: a
+        text: "Role"
+        explanation: "Not correct. A Role lives in one namespace."
+      - id: b
+        text: "ClusterRole"
+        explanation: "Correct. A ClusterRole is cluster-scoped. Roles, ConfigMaps and ResourceQuotas are namespaced."
+      - id: c
+        text: "ConfigMap"
+        explanation: "Not correct. A ConfigMap lives in one namespace."
+      - id: d
+        text: "ResourceQuota"
+        explanation: "Not correct. A ResourceQuota lives in one namespace."
+    correct_option: b
+    explanation: "A ClusterRole is cluster-scoped. Roles, ConfigMaps and ResourceQuotas are namespaced."
+
+  - id: ats081-010-m02-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Describe the effect of a compute quota on Pods without requests"
+    source_readings:
+      - sections/section-010/module-02/course-02-quota-and-default-limits-per-tenant.md
+    prompt: "A namespace has a ResourceQuota for requests.cpu and no LimitRange. A developer creates a Pod without a resources block. What happens?"
+    options:
+      - id: a
+        text: "The API server rejects the Pod because it states no CPU request."
+        explanation: "Correct. A quota on a compute resource requires every Pod to state a value for it, and a LimitRange can add the default."
+      - id: b
+        text: "The Pod runs with the request of 0."
+        explanation: "Not correct. With a compute quota the Pod must state a value."
+      - id: c
+        text: "The Pod runs and counts as 100m."
+        explanation: "Not correct. Nothing adds a default without a LimitRange."
+      - id: d
+        text: "The quota is ignored for that Pod."
+        explanation: "Not correct. The quota applies to every new Pod."
+    correct_option: a
+    explanation: "A quota on a compute resource requires every Pod to state a value for it, and a LimitRange can add the default."
+
+  - id: ats081-010-m02-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Order the admission of defaults and quota"
+    source_readings:
+      - sections/section-010/module-02/course-02-quota-and-default-limits-per-tenant.md
+    prompt: "In which order does the API server apply a LimitRange default and the ResourceQuota check for a new Pod?"
+    options:
+      - id: a
+        text: "The LimitRange default is added first, then the quota counts the values."
+        explanation: "Correct. Defaults are added at admission, so the quota check sees them."
+      - id: b
+        text: "The quota is checked first and the defaults come later."
+        explanation: "Not correct. The quota needs the values that the defaults supply."
+      - id: c
+        text: "Both are applied after the Pod is stored."
+        explanation: "Not correct. Both run during admission, before storage."
+      - id: d
+        text: "Only the quota runs."
+        explanation: "Not correct. Both run during admission."
+    correct_option: a
+    explanation: "Defaults are added at admission, so the quota check sees them."
+
+  - id: ats081-010-m02-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Write a default-deny ingress policy"
+    source_readings:
+      - sections/section-010/module-02/course-03-network-and-pod-isolation.md
+    prompt: "What does a NetworkPolicy of type Ingress with an empty podSelector and no ingress rules do?"
+    options:
+      - id: a
+        text: "It denies all ingress traffic to every Pod in its namespace."
+        explanation: "Correct. The empty selector picks every Pod and the missing rules allow nothing."
+      - id: b
+        text: "It allows all ingress traffic."
+        explanation: "Not correct. No rules means nothing is allowed."
+      - id: c
+        text: "It denies all egress traffic."
+        explanation: "Not correct. The type is Ingress, so only ingress is affected."
+      - id: d
+        text: "It applies to all namespaces."
+        explanation: "Not correct. A NetworkPolicy applies to its own namespace."
+    correct_option: a
+    explanation: "The empty selector picks every Pod and the missing rules allow nothing."
+
+  - id: ats081-010-m02-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "State who enforces a NetworkPolicy"
+    source_readings:
+      - sections/section-010/module-02/course-03-network-and-pod-isolation.md
+    prompt: "A NetworkPolicy object is accepted by the API server, but traffic is not blocked in a cluster. What is the most likely cause?"
+    options:
+      - id: a
+        text: "The network plugin does not enforce NetworkPolicy."
+        explanation: "Correct. The network plugin enforces policies, and a plugin without support leaves them without effect."
+      - id: b
+        text: "The API server stores the policy in the wrong namespace."
+        explanation: "Not correct. A stored policy is still valid; the plugin enforces it."
+      - id: c
+        text: "kubectl needs a restart."
+        explanation: "Not correct. kubectl has no part in enforcement."
+      - id: d
+        text: "The policy needs a ResourceQuota."
+        explanation: "Not correct. A quota does not affect traffic rules."
+    correct_option: a
+    explanation: "The network plugin enforces policies, and a plugin without support leaves them without effect."
+
+  - id: ats081-010-m02-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Choose the Pod Security mode that rejects"
+    source_readings:
+      - sections/section-010/module-02/course-03-network-and-pod-isolation.md
+    prompt: "Which label makes the API server reject Pods that violate the baseline Pod Security Standard in a namespace?"
+    options:
+      - id: a
+        text: "pod-security.kubernetes.io/enforce=baseline"
+        explanation: "Correct. Only the enforce mode rejects. The warn and audit modes do not reject."
+      - id: b
+        text: "pod-security.kubernetes.io/warn=baseline"
+        explanation: "Not correct. warn only shows a warning."
+      - id: c
+        text: "pod-security.kubernetes.io/audit=baseline"
+        explanation: "Not correct. audit only records an annotation."
+      - id: d
+        text: "pod-security.kubernetes.io/level=baseline"
+        explanation: "Not correct. This label key does not exist."
+    correct_option: a
+    explanation: "Only the enforce mode rejects. The warn and audit modes do not reject."
+
+  - id: ats081-010-m02-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Plan a Pod Security level change"
+    source_readings:
+      - sections/section-010/module-02/course-03-network-and-pod-isolation.md
+    prompt: "A platform team wants to move tenants from baseline to restricted without breaking running work. Which approach fits?"
+    options:
+      - id: a
+        text: "Add warn=restricted, fix the warnings, then change enforce to restricted."
+        explanation: "Correct. The warn mode shows what would fail before the level is enforced."
+      - id: b
+        text: "Set enforce=restricted for all tenants on one day."
+        explanation: "Not correct. Pods that violate the level would be rejected when they are recreated."
+      - id: c
+        text: "Delete the namespaces and start again."
+        explanation: "Not correct. This destroys the tenant data."
+      - id: d
+        text: "Remove the Pod Security labels."
+        explanation: "Not correct. This removes the controls."
+    correct_option: a
+    explanation: "The warn mode shows what would fail before the level is enforced."
+
+  - id: ats081-010-m02-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Test admission with a server-side dry run"
+    source_readings:
+      - sections/section-010/module-02/course-04-onboarding-a-tenant-as-one-bundle.md
+    prompt: "Which command tests the full admission chain of a Pod without storing it?"
+    options:
+      - id: a
+        text: "kubectl apply --dry-run=server -f pod.yaml"
+        explanation: "Correct. A server-side dry run runs admission, including Pod Security and quota, and stores nothing."
+      - id: b
+        text: "kubectl apply --dry-run=client -f pod.yaml"
+        explanation: "Not correct. A client dry run does not contact admission."
+      - id: c
+        text: "kubectl get pod"
+        explanation: "Not correct. This reads objects and tests nothing."
+      - id: d
+        text: "kubectl explain pod"
+        explanation: "Not correct. This prints the schema."
+    correct_option: a
+    explanation: "A server-side dry run runs admission, including Pod Security and quota, and stores nothing."
+
+  - id: ats081-010-m02-q10
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain why a tenant bundle must be repeatable"
+    source_readings:
+      - sections/section-010/module-02/course-04-onboarding-a-tenant-as-one-bundle.md
+    prompt: "Why should a tenant bundle live in a repository or a template instead of being applied by hand?"
+    options:
+      - id: a
+        text: "Every tenant gets the same objects and changes can be reviewed."
+        explanation: "Correct. A repeatable source keeps tenants consistent and reviewable."
+      - id: b
+        text: "Manual changes are faster and always consistent."
+        explanation: "Not correct. Manual changes drift between tenants."
+      - id: c
+        text: "Kubernetes requires a repository for quotas."
+        explanation: "Not correct. Kubernetes does not require it."
+      - id: d
+        text: "A repository makes the quota larger."
+        explanation: "Not correct. Where manifests are stored does not change values."
+    correct_option: a
+    explanation: "A repeatable source keeps tenants consistent and reviewable."
+

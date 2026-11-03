@@ -35,6 +35,19 @@ This section teaches you to separate a developer portal from the platform behind
     astrona submit -c .
     ```
 
+### 2. Software Templates In Depth
+*   **Module Reader:** **[Module 2: Software Templates In Depth](./module-02/course.md)**
+*   **Hands-on Playground:** `sections/section-030/module-02/playground` - kind cluster with the a template stored as text in a ConfigMap.
+    ```bash
+    astrona run --git ssh://git@github.com/astrona-io/ATS081.git -c sections/section-030/module-02/playground
+    ```
+*   **Lab:** Complete The Starfleet Service Template Lab - `sections/section-030/module-02/labs/lab-01` (UNTESTED)
+    ```bash
+    astrona run --git ssh://git@github.com/astrona-io/ATS081.git -c sections/section-030/module-02/labs/lab-01
+    astrona submit -c .
+    ```
+*   **Module quiz:** 10 questions in `sections/section-030/module-02/quiz.yaml`.
+
 ### Section Capstone Challenge
 *   **Comprehensive Challenge:** Golden Path And Portal Capstone - `sections/section-030/capstone/labs/lab-01` (UNTESTED)
     ```bash

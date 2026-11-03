@@ -40,6 +40,19 @@ sections:
     sources:
     - reading: sections/section-010/module-01/course-01-self-service-requests-guardrails-and-useful-status.md
       adapted_from: null
+  - id: module-02
+    title: Namespace-As-A-Service And Tenant Isolation
+    objectives:
+    - Explain the namespace as a policy boundary and its limits.
+    - Apply quota, defaults, network rules and Pod Security to a tenant.
+    - Test a tenant bundle with server-side dry runs.
+    outline:
+    - Namespace-As-A-Service And Tenant Isolation
+    playground: true
+    module_lab: true
+    sources:
+    - reading: sections/section-010/module-02/course-01-the-namespace-as-a-tenant-boundary.md
+      adapted_from: null
 - id: section-020
   title: API-Driven Service Catalogs
   curriculum_item: API-Driven Service Catalogs
@@ -59,6 +72,19 @@ sections:
     sources:
     - reading: sections/section-020/module-01/course-01-software-entities-ownership-and-discoverable-relationships.md
       adapted_from: ATS071/sections/section-010/module-01/course-01-software-entities-ownership-and-discoverable-relationships.md
+  - id: module-02
+    title: The Catalog Descriptor Format
+    objectives:
+    - Write a valid catalog descriptor with owner, lifecycle and system.
+    - Explain how relations are derived from descriptor fields.
+    - Validate descriptors and locate dangling references.
+    outline:
+    - The Catalog Descriptor Format
+    playground: true
+    module_lab: true
+    sources:
+    - reading: sections/section-020/module-02/course-01-the-anatomy-of-a-descriptor.md
+      adapted_from: null
 - id: section-030
   title: Developer Portals for Platform Adoption
   curriculum_item: Developer Portals for Platform Adoption
@@ -78,6 +104,19 @@ sections:
     sources:
     - reading: sections/section-030/module-01/course-01-developer-portals-discovery-and-supported-adoption.md
       adapted_from: null
+  - id: module-02
+    title: Software Templates In Depth
+    objectives:
+    - Describe the sections of a software template.
+    - Validate template input and chain publish and register steps.
+    - Explain how templates are tested, versioned and kept current.
+    outline:
+    - Software Templates In Depth
+    playground: true
+    module_lab: true
+    sources:
+    - reading: sections/section-030/module-02/course-01-the-anatomy-of-a-template.md
+      adapted_from: null
 - id: section-040
   title: AI/ML in Platform Automation
   curriculum_item: AI/ML in Platform Automation
@@ -96,4 +135,17 @@ sections:
     module_lab: true
     sources:
     - reading: sections/section-040/module-01/course-01-ai-assisted-automation-evaluation-and-bounded-authority.md
+      adapted_from: null
+  - id: module-02
+    title: Platform Capabilities For Machine Learning Workloads
+    objectives:
+    - Name the stages of the ML lifecycle and the platform capability for each.
+    - Limit accelerators with extended resources, quotas and priorities.
+    - Describe guardrails for training Jobs and model servers.
+    outline:
+    - Platform Capabilities For Machine Learning Workloads
+    playground: true
+    module_lab: true
+    sources:
+    - reading: sections/section-040/module-02/course-01-the-ml-lifecycle-and-what-the-platform-provides.md
       adapted_from: null

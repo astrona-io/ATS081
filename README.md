@@ -8,10 +8,10 @@ Concept lessons explain each official objective through mechanisms, responsible 
 
 | Section | Objective | Modules | Features used in the labs |
 | --- | --- | --- | --- |
-| 010 | Simplified Access to Platform Capabilities | 1 + capstone | CustomResourceDefinition, ResourceQuota, LimitRange, ValidatingAdmissionPolicy, RBAC |
-| 020 | API-Driven Service Catalogs | 1 + capstone | CustomResourceDefinition, CEL validation, labels, kubectl and jq queries |
-| 030 | Developer Portals for Platform Adoption | 1 + capstone | ConfigMap-driven portal, templates, catalog data |
-| 040 | AI/ML in Platform Automation | 1 + capstone | RBAC, ValidatingAdmissionPolicy, audit records |
+| 010 | Simplified Access to Platform Capabilities | 2 + capstone | CustomResourceDefinition, ResourceQuota, LimitRange, ValidatingAdmissionPolicy, RBAC |
+| 020 | API-Driven Service Catalogs | 2 + capstone | CustomResourceDefinition, CEL validation, labels, kubectl and jq queries |
+| 030 | Developer Portals for Platform Adoption | 2 + capstone | ConfigMap-driven portal, templates, catalog data |
+| 040 | AI/ML in Platform Automation | 2 + capstone | RBAC, ValidatingAdmissionPolicy, audit records |
 
 See [the curriculum map](CURRICULUM.md) for module outcomes. The manifest `astrona.yaml` registers readings, labs and quizzes in teaching order. See also [primary sources](SOURCES.md) and [contribution instructions](CONTRIBUTING.md).
 

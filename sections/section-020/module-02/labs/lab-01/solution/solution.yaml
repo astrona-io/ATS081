@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: entity-files
+  namespace: catalog-files
+data:
+  scout.yaml: |
+    apiVersion: backstage.io/v1alpha1
+    kind: Component
+    metadata:
+      name: scout
+      annotations:
+        backstage.io/kubernetes-id: scout
+    spec:
+      type: service
+      lifecycle: production
+      owner: group:default/scout-team
+      system: navigation
+  probe.yaml: |
+    apiVersion: backstage.io/v1alpha1
+    kind: Component
+    metadata:
+      name: probe
+      annotations:
+        backstage.io/kubernetes-id: probe
+    spec:
+      type: service
+      lifecycle: production
+      owner: group:default/probe-team
+      system: navigation
+      dependsOn:
+        - component:default/scout

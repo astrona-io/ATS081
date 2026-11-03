@@ -1,0 +1,63 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Prepare The team-beta Tenant Lab (LAB). Graded against the live cluster. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-081-lab-010-02-01
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+
+bootstrap:
+  init:
+    - name: seed-cluster
+      description: Create the starting state, including the faults
+      type: file
+      source: bootstrap/01-seed-cluster.sh
+
+# Applied only by astrona test: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+
+validation:
+  scripts:
+    - name: tenant-labels
+      description: "The namespace team-beta has the tenant label beta and the baseline enforce label"
+      type: file
+      source: validation/validate-tenant-labels.sh
+      hint: "Label the namespace with platform.starfleet.example/tenant=beta and pod-security.kubernetes.io/enforce=baseline."
+    - name: quota
+      description: "The ResourceQuota tenant-quota limits team-beta to 10 pods and requests.cpu 2"
+      type: file
+      source: validation/validate-quota.sh
+      hint: "Create the quota in team-beta with hard pods 10 and requests.cpu 2."
+    - name: limitrange
+      description: "The LimitRange tenant-defaults sets the container memory default limit 256Mi and request 128Mi"
+      type: file
+      source: validation/validate-limitrange.sh
+      hint: "Use a limit of type Container with default.memory and defaultRequest.memory."
+    - name: default-deny
+      description: "The NetworkPolicy default-deny-ingress selects all pods, has type Ingress and no ingress rules"
+      type: file
+      source: validation/validate-default-deny.sh
+      hint: "Use podSelector: {} and policyTypes: [Ingress] and leave out the ingress field."
+    - name: privileged-rejected
+      description: "A privileged pod in team-beta is rejected and the namespace outpost has no tenant label"
+      type: file
+      source: validation/validate-privileged-rejected.sh
+      hint: "Set pod-security.kubernetes.io/enforce=baseline on team-beta and leave other namespaces alone."
+
+teardown:
+  keepCluster: false
