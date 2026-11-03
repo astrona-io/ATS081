@@ -1,0 +1,305 @@
+# The Starfleet example app: scout and probe (backends) and shuttle (client)
+# in `starfleet`, drifter (outside client) in `outpost`. Each workload has its
+# own service account.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: starfleet
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: outpost
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: scout
+  namespace: starfleet
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: probe
+  namespace: starfleet
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: shuttle
+  namespace: starfleet
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: drifter
+  namespace: outpost
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scout
+  namespace: starfleet
+  labels:
+    app: scout
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scout
+  template:
+    metadata:
+      labels:
+        app: scout
+    spec:
+      serviceAccountName: scout
+      containers:
+        - name: scout
+          image: ghcr.io/stefanprodan/podinfo:6.15.0
+          ports:
+            - name: http
+              containerPort: 9898
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 64Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: scout
+  namespace: starfleet
+spec:
+  selector:
+    app: scout
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: probe
+  namespace: starfleet
+  labels:
+    app: probe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: probe
+  template:
+    metadata:
+      labels:
+        app: probe
+    spec:
+      serviceAccountName: probe
+      containers:
+        - name: probe
+          image: mccutchen/go-httpbin:2.25.0
+          ports:
+            - name: http
+              containerPort: 8080
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              memory: 64Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: probe
+  namespace: starfleet
+spec:
+  selector:
+    app: probe
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shuttle
+  namespace: starfleet
+  labels:
+    app: shuttle
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shuttle
+  template:
+    metadata:
+      labels:
+        app: shuttle
+    spec:
+      serviceAccountName: shuttle
+      containers:
+        - name: shuttle
+          image: curlimages/curl:8.22.0
+          command: ["sh", "-c", "while true; do sleep 30; done"]
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              memory: 32Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drifter
+  namespace: outpost
+  labels:
+    app: drifter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: drifter
+  template:
+    metadata:
+      labels:
+        app: drifter
+    spec:
+      serviceAccountName: drifter
+      containers:
+        - name: drifter
+          image: curlimages/curl:8.22.0
+          command: ["sh", "-c", "while true; do sleep 30; done"]
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              memory: 32Mi
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: catalog
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: catalogentities.catalog.starfleet.example
+spec:
+  group: catalog.starfleet.example
+  scope: Namespaced
+  names:
+    kind: CatalogEntity
+    singular: catalogentity
+    plural: catalogentities
+    shortNames:
+      - ent
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      additionalPrinterColumns:
+        - name: Kind
+          type: string
+          jsonPath: .spec.kind
+        - name: Lifecycle
+          type: string
+          jsonPath: .spec.lifecycle
+        - name: Owner
+          type: string
+          jsonPath: .spec.owner
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              required:
+                - kind
+                - lifecycle
+                - owner
+              properties:
+                kind:
+                  type: string
+                  enum:
+                    - Component
+                    - System
+                    - API
+                    - Resource
+                lifecycle:
+                  type: string
+                  enum:
+                    - experimental
+                    - production
+                    - deprecated
+                owner:
+                  type: string
+                  description: Owning group, written as group:name.
+                system:
+                  type: string
+                description:
+                  type: string
+                dependsOn:
+                  type: array
+                  items:
+                    type: string
+                    pattern: '^(component|api|resource|system):[a-z0-9-]+$'
+              x-kubernetes-validations:
+                - rule: "self.owner.startsWith('group:')"
+                  message: "owner must be a group such as group:starfleet-team"
+---
+apiVersion: catalog.starfleet.example/v1alpha1
+kind: CatalogEntity
+metadata:
+  name: scout
+  namespace: catalog
+  annotations:
+    catalog.starfleet.example/last-reviewed: "2025-03-01"
+spec:
+  kind: Component
+  lifecycle: production
+  owner: group:starfleet-team
+  system: starfleet-system
+  description: Backend service that answers fleet queries
+---
+apiVersion: catalog.starfleet.example/v1alpha1
+kind: CatalogEntity
+metadata:
+  name: probe
+  namespace: catalog
+  annotations:
+    catalog.starfleet.example/last-reviewed: "2026-10-20"
+spec:
+  kind: Component
+  lifecycle: production
+  owner: group:unassigned
+  system: starfleet-system
+  description: Test target that echoes requests
+  dependsOn:
+    - component:scout
+---
+apiVersion: catalog.starfleet.example/v1alpha1
+kind: CatalogEntity
+metadata:
+  name: shuttle
+  namespace: catalog
+  annotations:
+    catalog.starfleet.example/last-reviewed: "2026-10-20"
+spec:
+  kind: Component
+  lifecycle: production
+  owner: group:starfleet-team
+  system: starfleet-system
+  description: Client that calls the other services
+  dependsOn:
+    - component:scout
+    - resource:telemetry-db

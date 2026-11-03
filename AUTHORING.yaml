@@ -1,5 +1,5 @@
 version: 1
-approval: CNPA requested 2026-10-11; established reading-only scope
+approval: CNPA requested 2026-10-11; reading-only rule lifted by the maintainer 2026-11-03 (labs, playgrounds, capstones and quizzes added)
 course:
   id: ATS081
   certification:
@@ -14,18 +14,18 @@ course:
     - Developer Portals for Platform Adoption
     - AI/ML in Platform Automation
 defaults:
-  playground: false
-  module_lab: false
-  capstone: false
-  section_quiz: false
+  playground: true
+  module_lab: true
+  capstone: true
+  section_quiz: true
   final_quiz: true
 assessment_format: YAML question banks v1, registered in assessments/index.yaml
 sections:
 - id: section-010
   title: Simplified Access to Platform Capabilities
   curriculum_item: Simplified Access to Platform Capabilities
-  capstone: false
-  section_quiz: false
+  capstone: true
+  section_quiz: true
   modules:
   - id: module-01
     title: Self-Service Requests, Guardrails And Useful Status
@@ -35,16 +35,16 @@ sections:
     - Reason about request status, permission and exception handling.
     outline:
     - Self-Service Requests, Guardrails And Useful Status
-    playground: false
-    module_lab: false
+    playground: true
+    module_lab: true
     sources:
     - reading: sections/section-010/module-01/course-01-self-service-requests-guardrails-and-useful-status.md
       adapted_from: null
 - id: section-020
   title: API-Driven Service Catalogs
   curriculum_item: API-Driven Service Catalogs
-  capstone: false
-  section_quiz: false
+  capstone: true
+  section_quiz: true
   modules:
   - id: module-01
     title: Software Entities, Ownership And Discoverable Relationships
@@ -54,16 +54,16 @@ sections:
     - Reason about ownership, freshness and catalog usefulness.
     outline:
     - Software Entities, Ownership And Discoverable Relationships
-    playground: false
-    module_lab: false
+    playground: true
+    module_lab: true
     sources:
     - reading: sections/section-020/module-01/course-01-software-entities-ownership-and-discoverable-relationships.md
       adapted_from: ATS071/sections/section-010/module-01/course-01-software-entities-ownership-and-discoverable-relationships.md
 - id: section-030
   title: Developer Portals for Platform Adoption
   curriculum_item: Developer Portals for Platform Adoption
-  capstone: false
-  section_quiz: false
+  capstone: true
+  section_quiz: true
   modules:
   - id: module-01
     title: Developer Portals, Discovery And Supported Adoption
@@ -73,16 +73,16 @@ sections:
     - Reason about adoption, freshness and alternative interfaces.
     outline:
     - Developer Portals, Discovery And Supported Adoption
-    playground: false
-    module_lab: false
+    playground: true
+    module_lab: true
     sources:
     - reading: sections/section-030/module-01/course-01-developer-portals-discovery-and-supported-adoption.md
       adapted_from: null
 - id: section-040
   title: AI/ML in Platform Automation
   curriculum_item: AI/ML in Platform Automation
-  capstone: false
-  section_quiz: false
+  capstone: true
+  section_quiz: true
   modules:
   - id: module-01
     title: AI-Assisted Automation, Evaluation And Bounded Authority
@@ -92,8 +92,8 @@ sections:
     - Reason about evaluation, uncertainty and feedback before adoption.
     outline:
     - AI-Assisted Automation, Evaluation And Bounded Authority
-    playground: false
-    module_lab: false
+    playground: true
+    module_lab: true
     sources:
     - reading: sections/section-040/module-01/course-01-ai-assisted-automation-evaluation-and-bounded-authority.md
       adapted_from: null

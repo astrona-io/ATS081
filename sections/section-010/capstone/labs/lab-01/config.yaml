@@ -1,0 +1,63 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Simplified Access Capstone (CAPSTONE LAB). Graded against the live cluster. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-081-capstone-010
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+
+bootstrap:
+  init:
+    - name: seed-cluster
+      description: Create the starting state, including the faults
+      type: file
+      source: bootstrap/01-seed-cluster.sh
+
+# Applied only by astrona test: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+
+validation:
+  scripts:
+    - name: quota
+      description: "ResourceQuota team-quota in team-alpha allows 6 pods and 2 CPU of requests"
+      type: file
+      source: validation/validate-quota.sh
+      hint: "Create a ResourceQuota named team-quota with hard limits pods and requests.cpu."
+    - name: limits
+      description: "LimitRange team-limits sets container memory default 128Mi, default request 64Mi and maximum 512Mi"
+      type: file
+      source: validation/validate-limits.sh
+      hint: "Create a LimitRange named team-limits with a Container limit that has default, defaultRequest and max for memory."
+    - name: owner-policy
+      description: "Deployments without an owner label are denied in team-alpha with a message about owner, and allowed in outpost"
+      type: file
+      source: validation/validate-owner-policy.sh
+      hint: "Create a ValidatingAdmissionPolicy for Deployments and a binding with validationActions Deny that selects only team-alpha."
+    - name: team-rbac
+      description: "Group team-alpha-developers can create requests only in team-alpha and cannot write status or create Deployments"
+      type: file
+      source: validation/validate-team-rbac.sh
+      hint: "Create a Role in team-alpha for environmentrequests and a RoleBinding to the group. Do not use a ClusterRole."
+    - name: request-ready
+      description: "The EnvironmentRequest starter in team-alpha has owner alpha-team, phase Ready and a Ready condition with status True"
+      type: file
+      source: validation/validate-request-ready.sh
+      hint: "Create the request, then patch its status through the status subresource with kubectl patch --subresource=status."
+
+teardown:
+  keepCluster: false

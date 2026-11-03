@@ -1,0 +1,266 @@
+# Knowledge check for section 010. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+id: ats081-010
+course_id: ATS081
+exam_code: CNPA
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-010
+  title: "Simplified Access to Platform Capabilities"
+questions:
+  - id: ats081-010-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Explain why a server-side check is needed even when a form validates input"
+    source_readings:
+      - sections/section-010/module-01/course-01-a-request-api-with-a-customresourcedefinition.md
+    prompt: "The portal form for environment requests limits the class field to a drop-down list. A script calls the API server directly with class \"huge\". Which design makes the platform reject that request?"
+    options:
+      - id: a
+        text: "Put the allowed values in the CRD schema as an enum, so the API server rejects other values."
+        explanation: "Correct. The API server checks every client against the schema."
+      - id: b
+        text: "Hide the class field in the portal."
+        explanation: "A script that calls the API does not use the portal."
+      - id: c
+        text: "Ask users in the documentation to choose a supported class."
+        explanation: "Documentation does not enforce anything."
+      - id: d
+        text: "Add a nightly job that deletes requests with unsupported values."
+        explanation: "The invalid request would be stored and could be acted on before the job runs."
+    correct_option: a
+    explanation: "Only the API server sees every request. A schema enum is evaluated on every create and update, whichever client sends it."
+
+  - id: ats081-010-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Describe what a CustomResourceDefinition provides on its own"
+    source_readings:
+      - sections/section-010/module-01/course-01-a-request-api-with-a-customresourcedefinition.md
+    prompt: "A team applies a CRD for EnvironmentRequest and creates one object. After an hour nothing was provisioned. What is the most likely reason?"
+    options:
+      - id: a
+        text: "The CRD only defines and stores the kind; no controller watches the objects and acts on them."
+        explanation: "Correct. A CRD has no behavior by itself."
+      - id: b
+        text: "Kubernetes deletes custom objects that have no status."
+        explanation: "Kubernetes does not delete objects for this reason."
+      - id: c
+        text: "CRDs only work in the default namespace."
+        explanation: "A CRD can be namespaced or cluster scoped."
+      - id: d
+        text: "The API server provisions environments when the schema is valid."
+        explanation: "The API server validates and stores objects but does not provision anything."
+    correct_option: a
+    explanation: "A CustomResourceDefinition adds a kind to the API. Acting on the objects needs a controller."
+
+  - id: ats081-010-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Use defaults and CEL validation rules in a request schema"
+    source_readings:
+      - sections/section-010/module-01/course-01-a-request-api-with-a-customresourcedefinition.md
+    prompt: "A request type must reject owners that do not end with \"-team\" and must show the user a readable reason. Which schema feature does this?"
+    options:
+      - id: a
+        text: "A default value on spec.owner."
+        explanation: "A default fills a missing value; it does not reject a wrong one."
+      - id: b
+        text: "An x-kubernetes-validations rule with a message."
+        explanation: "Correct. The CEL rule is evaluated by the API server and the message is returned to the user."
+      - id: c
+        text: "The status subresource."
+        explanation: "The status subresource separates status writes from spec writes."
+      - id: d
+        text: "additionalPrinterColumns."
+        explanation: "Printer columns only change the output of kubectl get."
+    correct_option: b
+    explanation: "Validation rules in the schema use CEL, and the message field gives the user the reason."
+
+  - id: ats081-010-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain the purpose of the status subresource"
+    source_readings:
+      - sections/section-010/module-01/course-01-a-request-api-with-a-customresourcedefinition.md
+    prompt: "Why enable the status subresource for a request kind?"
+    options:
+      - id: a
+        text: "So that kubectl get shows more columns."
+        explanation: "Columns come from additionalPrinterColumns."
+      - id: b
+        text: "So that users write spec and a controller writes status through separate permissions."
+        explanation: "Correct. RBAC can allow the spec without allowing the status."
+      - id: c
+        text: "So that the object is stored in two copies in etcd."
+        explanation: "The object is stored once."
+      - id: d
+        text: "So that the schema allows more fields."
+        explanation: "The subresource does not change which fields exist."
+    correct_option: b
+    explanation: "Spec and status are separate endpoints, so a user cannot set their own request to Ready."
+
+  - id: ats081-010-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Compare ResourceQuota, LimitRange and ValidatingAdmissionPolicy"
+    source_readings:
+      - sections/section-010/module-01/course-02-guardrails-with-quota-limits-and-admission-policy.md
+    prompt: "A namespace has a ResourceQuota for requests.cpu. A developer creates a Pod with no CPU request and it is rejected. What fixes the problem for all users of the namespace?"
+    options:
+      - id: a
+        text: "Remove the quota."
+        explanation: "This removes the guardrail instead of fixing the cause."
+      - id: b
+        text: "Add a LimitRange with a default CPU request for containers."
+        explanation: "Correct. The LimitRange fills the missing request before quota is checked."
+      - id: c
+        text: "Bind the edit ClusterRole to the developers."
+        explanation: "RBAC does not change quota behavior."
+      - id: d
+        text: "Change the policy binding to Warn."
+        explanation: "A binding does not apply to quota."
+    correct_option: b
+    explanation: "Quota needs a request value on each Pod; a LimitRange default supplies one."
+
+  - id: ats081-010-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Choose validationActions when introducing a new policy"
+    source_readings:
+      - sections/section-010/module-01/course-02-guardrails-with-quota-limits-and-admission-policy.md
+    prompt: "The platform team adds a rule that every Deployment needs an owner label. Many teams do not have the label yet. Which first step avoids breaking deployments while showing the problem?"
+    options:
+      - id: a
+        text: "validationActions: [Deny] in every namespace."
+        explanation: "This rejects all unlabeled Deployments at once."
+      - id: b
+        text: "validationActions: [Warn] or [Audit], then change to Deny later."
+        explanation: "Correct. Users see warnings or the platform team sees audit entries while requests still pass."
+      - id: c
+        text: "Delete the binding."
+        explanation: "Without a binding the policy does nothing."
+      - id: d
+        text: "Set failurePolicy to Ignore and keep Deny."
+        explanation: "failurePolicy controls evaluation errors, not the effect of a failed rule."
+    correct_option: b
+    explanation: "Warn and Audit let requests through, which makes them safe for a rollout of a new rule."
+
+  - id: ats081-010-q07
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Explain the effect of the binding and the scope of a policy"
+    source_readings:
+      - sections/section-010/module-01/course-02-guardrails-with-quota-limits-and-admission-policy.md
+    prompt: "A ValidatingAdmissionPolicy was applied, but an unlabeled Deployment is still accepted. No error appeared when the policy was applied. What is the first thing to check?"
+    options:
+      - id: a
+        text: "Whether a ValidatingAdmissionPolicyBinding selects the policy and the namespace, with Deny."
+        explanation: "Correct. A policy without a matching binding does nothing."
+      - id: b
+        text: "Whether the Deployment already existed before."
+        explanation: "This could matter for updates, but a new create would be checked."
+      - id: c
+        text: "Whether the CRD has a status subresource."
+        explanation: "The policy is not related to CRDs."
+      - id: d
+        text: "Whether the user is in the group system:masters."
+        explanation: "Group membership does not turn a policy off for a binding that exists and matches."
+    correct_option: a
+    explanation: "The policy defines the rule. The binding applies it to namespaces and sets the action."
+
+  - id: ats081-010-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Separate authorization from admission"
+    source_readings:
+      - sections/section-010/module-01/course-03-authorization-and-useful-request-status.md
+    prompt: "A group must create requests only in team-alpha. Which object achieves this?"
+    options:
+      - id: a
+        text: "A ClusterRoleBinding to the edit ClusterRole."
+        explanation: "This grants broad rights in every namespace."
+      - id: b
+        text: "A Role in team-alpha and a RoleBinding to the group in team-alpha."
+        explanation: "Correct. A Role is valid in one namespace only."
+      - id: c
+        text: "A LimitRange in team-alpha."
+        explanation: "A LimitRange sets container sizes."
+      - id: d
+        text: "A ResourceQuota in team-alpha."
+        explanation: "A quota limits totals, not who may call the API."
+    correct_option: b
+    explanation: "Roles and RoleBindings are namespaced, so permissions stop at the namespace boundary."
+
+  - id: ats081-010-q09
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Test permissions with impersonation"
+    source_readings:
+      - sections/section-010/module-01/course-03-authorization-and-useful-request-status.md
+    prompt: "Which command tests whether a developer in the group team-alpha-developers can create requests in outpost, without logging in as that user?"
+    options:
+      - id: a
+        text: "kubectl get rolebindings -n outpost"
+        explanation: "This lists bindings but does not evaluate the permission."
+      - id: b
+        text: "kubectl auth can-i create environmentrequests.platform.starfleet.example -n outpost --as=dev-jason --as-group=team-alpha-developers"
+        explanation: "Correct. It asks the authorization check as that user and group."
+      - id: c
+        text: "kubectl explain environmentrequest"
+        explanation: "This prints schema documentation."
+      - id: d
+        text: "kubectl create --dry-run=client -f request.yaml"
+        explanation: "A client dry run does not contact authorization."
+    correct_option: b
+    explanation: "kubectl auth can-i with --as and --as-group evaluates RBAC for another identity."
+
+  - id: ats081-010-q10
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Describe useful request status"
+    source_readings:
+      - sections/section-010/module-01/course-03-authorization-and-useful-request-status.md
+    prompt: "A request needs a human reviewer. What should the user see so that the user knows nothing is stuck?"
+    options:
+      - id: a
+        text: "No status, because the request is stored."
+        explanation: "The user cannot tell what is happening."
+      - id: b
+        text: "phase Pending with a condition whose reason is AwaitingReview and a message naming the reviewer."
+        explanation: "Correct. The state, the reason and the owner of the next step are visible."
+      - id: c
+        text: "phase Ready, because the request was accepted."
+        explanation: "Ready means the capability can be used."
+      - id: d
+        text: "phase Failed, so the user opens a ticket."
+        explanation: "The request did not fail; it waits."
+    correct_option: b
+    explanation: "A reason and a message turn a waiting state into information the user can act on."
+
+  - id: ats081-010-q11
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Reason about who may write status"
+    source_readings:
+      - sections/section-010/module-01/course-03-authorization-and-useful-request-status.md
+    prompt: "Developers have update permission on environmentrequests/status. What is the risk?"
+    options:
+      - id: a
+        text: "Status becomes slower to read."
+        explanation: "There is no such effect."
+      - id: b
+        text: "A developer can mark a request Ready without the platform having done the work."
+        explanation: "Correct. Status must come from the component that did the work."
+      - id: c
+        text: "The CRD is deleted."
+        explanation: "This permission does not delete a CRD."
+      - id: d
+        text: "Quota stops working."
+        explanation: "Quota is not affected."
+    correct_option: b
+    explanation: "Status only has meaning if the component that did the work wrote it."
+

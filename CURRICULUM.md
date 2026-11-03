@@ -18,4 +18,4 @@ The [official objectives](https://training.linuxfoundation.org/certification/cer
 | 030 / 01 | Developer Portals, Discovery And Supported Adoption | Developer Portals, Discovery And Supported Adoption |
 | 040 / 01 | AI-Assisted Automation, Evaluation And Bounded Authority | AI-Assisted Automation, Evaluation And Bounded Authority |
 
-AUTHORING.yaml records measurable goals and adaptation sources. Every objective retains its section ID. All technical readings remain draft. Question banks are separate from the reading manifest and follow their declared summaries. No labs, playgrounds or runtime validation are included.
+AUTHORING.yaml records measurable goals and adaptation sources. Every objective retains its section ID. All technical readings remain draft. Each module has a playground and a graded lab, each section has a capstone lab and a quiz, and a final domain quiz closes the course. Labs and playgrounds are built untested; no runtime validation is claimed.

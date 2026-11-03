@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: golden-path-template
+  namespace: portal
+data:
+  deployment.yaml: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: __NAME__
+      namespace: starfleet
+      labels:
+        app: __NAME__
+        owner: __OWNER__
+        catalog.starfleet.example/entity: __NAME__
+        platform.starfleet.example/golden-path: "true"
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: __NAME__
+      template:
+        metadata:
+          labels:
+            app: __NAME__
+        spec:
+          containers:
+            - name: app
+              image: ghcr.io/stefanprodan/podinfo:6.15.0
+              ports:
+                - containerPort: 9898
+              readinessProbe:
+                httpGet:
+                  path: /healthz
+                  port: 9898
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 32Mi
+                limits:
+                  memory: 64Mi

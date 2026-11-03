@@ -1,0 +1,61 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Golden Path And Portal Capstone (CAPSTONE LAB). Graded against the live cluster. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-081-capstone-030
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+      - mccutchen/go-httpbin:2.25.0
+      - curlimages/curl:8.22.0
+      - nginx:1.27-alpine
+
+bootstrap:
+  init:
+    - name: seed-cluster
+      description: Create the starting state, including the faults
+      type: file
+      source: bootstrap/01-seed-cluster.sh
+
+# Applied only by astrona test: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+
+validation:
+  scripts:
+    - name: template
+      description: "The template renders to a Deployment that passes a server dry run and carries the catalog label, the golden-path label, a readiness probe and a memory limit"
+      type: file
+      source: validation/validate-template.sh
+      hint: "Edit the ConfigMap golden-path-template in the namespace portal: add the labels, a readinessProbe and resources with a memory limit."
+    - name: beacon
+      description: "The Deployment beacon in starfleet was rendered from the fixed template: owner outpost-team, entity beacon, golden-path true, probe, memory limit and one available replica"
+      type: file
+      source: validation/validate-beacon.sh
+      hint: "Render the template with the name beacon and the owner outpost-team, then apply it. Fix the template first."
+    - name: portal-list
+      description: "The portal serves all five services including beacon, with real owners and an updated date of 2026-11-01 or later"
+      type: file
+      source: validation/validate-portal.sh
+      hint: "Edit the ConfigMap portal-catalog: add drifter if missing and beacon, and change the updated date. Wait for the mounted file to update."
+    - name: adoption-report
+      description: "ConfigMap adoption-report in portal has total, goldenPath and coverage that match the live cluster and the served list"
+      type: file
+      source: validation/validate-report.sh
+      hint: "Count the Deployments in starfleet and outpost, count those with the golden-path label, and compute the coverage percent from the portal list."
+
+teardown:
+  keepCluster: false

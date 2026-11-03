@@ -1,16 +1,47 @@
 ---
 draft: true
 exam_objectives:
-- Developer Portals for Platform Adoption
+  - Developer Portals for Platform Adoption
 ---
-# Developer Portals for Platform Adoption
+# Section 030: Developer Portals for Platform Adoption
 
-This section covers developer Portals for Platform Adoption. It develops developer Portals, Discovery And Supported Adoption through mechanisms, examples, prerequisites and failure reasoning.
+This section teaches you to separate a developer portal from the platform behind it. You run a small portal on Kubernetes, build a golden-path template, and measure adoption and the freshness of the data the portal shows.
 
-Read the module goals, teaching and closing summary in order. YAML checks are indexed separately and appear after designated summaries. Larger domains can include intermediate checkpoints before the final review.
+**Exam objective covered:** Developer Portals for Platform Adoption
 
-## Learning Outcomes
+---
 
-- Distinguish a developer portal from the complete platform.
-- Explain catalog, documentation and task integration roles.
-- Reason about adoption, freshness and alternative interfaces.
+## What You Will Master
+
+- Explain what a portal shows and what it must not own.
+- Refresh the service list that a portal serves from a ConfigMap and confirm that the running pods see the change.
+- Write a golden-path template with placeholders, render it and apply the result.
+- State what a golden path promises: owner label, catalog link, readiness probe and memory limit.
+- Compute adoption coverage and detect stale portal data.
+
+---
+
+## The Learning Path
+
+### 1. Developer Portals, Golden Paths And Supported Adoption
+*   **Module Reader:** **[Module 1: Developer Portals, Golden Paths And Supported Adoption](./module-01/course.md)**
+*   **Hands-on Playground:** `sections/section-030/module-01/playground` - kind cluster. The namespace `portal` runs a portal that serves a service list, with a template that has gaps.
+    ```bash
+    astrona run --git ssh://git@github.com/astrona-io/ATS081.git -c sections/section-030/module-01/playground
+    ```
+*   **Lab:** Refresh The Portal Service List - `sections/section-030/module-01/labs/lab-01` (UNTESTED)
+    ```bash
+    astrona run --git ssh://git@github.com/astrona-io/ATS081.git -c sections/section-030/module-01/labs/lab-01
+    astrona submit -c .
+    ```
+
+### Section Capstone Challenge
+*   **Comprehensive Challenge:** Golden Path And Portal Capstone - `sections/section-030/capstone/labs/lab-01` (UNTESTED)
+    ```bash
+    astrona run --git ssh://git@github.com/astrona-io/ATS081.git -c sections/section-030/capstone/labs/lab-01
+    astrona submit -c .
+    ```
+*   **Hands-on Objective:** Fix the golden-path template, render it for the service `beacon`, update the portal list with real owners and a current date, and record an `adoption-report` with the totals and the coverage. The grader checks live cluster state.
+
+### Knowledge Check
+*   **Quiz:** 11 questions in `sections/section-030/quiz.yaml`. The pass score is 70 percent.

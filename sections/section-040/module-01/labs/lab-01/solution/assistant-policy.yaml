@@ -1,0 +1,28 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: assistant-proposals-start-proposed
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["configmaps"]
+  validations:
+    - expression: "request.userInfo.username != 'system:serviceaccount:assistant:ops-assistant' || (has(object.metadata.labels) && 'proposal-status' in object.metadata.labels && object.metadata.labels['proposal-status'] == 'proposed')"
+      message: "proposals from ops-assistant must carry the label proposal-status=proposed"
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: assistant-proposals-start-proposed
+spec:
+  policyName: assistant-proposals-start-proposed
+  validationActions:
+    - Deny
+  matchResources:
+    namespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name: assistant

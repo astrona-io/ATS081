@@ -1,0 +1,266 @@
+# Knowledge check for section 020. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+id: ats081-020
+course_id: ATS081
+exam_code: CNPA
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-020
+  title: "API-Driven Service Catalogs"
+questions:
+  - id: ats081-020-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Explain what an owner tells a reader of the catalog"
+    source_readings:
+      - sections/section-020/module-01/course-01-the-catalog-model-entities-owners-and-relationships.md
+    prompt: "An alert fires for a service during the night. Which catalog field tells the on-call engineer whom to contact?"
+    options:
+      - id: a
+        text: "The lifecycle field."
+        explanation: "Lifecycle says whether the entity should be used, not who is responsible."
+      - id: b
+        text: "The owner field."
+        explanation: "Correct. The owner names the group that is responsible."
+      - id: c
+        text: "The description field."
+        explanation: "A description explains the purpose and does not name a contact."
+      - id: d
+        text: "The system field."
+        explanation: "A system groups entities but does not name a responsible group."
+    correct_option: b
+    explanation: "The owner field answers who is responsible for the entity."
+
+  - id: ats081-020-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Distinguish the entity kinds"
+    source_readings:
+      - sections/section-020/module-01/course-01-the-catalog-model-entities-owners-and-relationships.md
+    prompt: "A team needs to register a PostgreSQL database that several services use. Which entity kind fits best?"
+    options:
+      - id: a
+        text: "Component"
+        explanation: "A component is a unit of software that is deployed and run."
+      - id: b
+        text: "API"
+        explanation: "An API describes an interface that one entity offers to others."
+      - id: c
+        text: "Resource"
+        explanation: "Correct. A resource is infrastructure that components depend on, such as a database."
+      - id: d
+        text: "Group"
+        explanation: "A group is a team, not infrastructure."
+    correct_option: c
+    explanation: "Databases, queues and buckets are resources that components depend on."
+
+  - id: ats081-020-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Use dependsOn to answer an impact question"
+    source_readings:
+      - sections/section-020/module-01/course-01-the-catalog-model-entities-owners-and-relationships.md
+    prompt: "The team wants to retire the entity scout. Which question does the catalog answer to find the affected entities?"
+    options:
+      - id: a
+        text: "Which entities have scout as owner?"
+        explanation: "Ownership does not show who uses scout."
+      - id: b
+        text: "Which entities list component:scout in dependsOn?"
+        explanation: "Correct. The dependents are the entities that point at scout."
+      - id: c
+        text: "Which entities are in the same system as scout?"
+        explanation: "Entities in one system need not depend on each other."
+      - id: d
+        text: "Which entities have the lifecycle production?"
+        explanation: "Lifecycle does not show relationships."
+    correct_option: b
+    explanation: "Relationships are stored on the dependent. Reading them in reverse finds the impact of a change."
+
+  - id: ats081-020-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Choose the place for rules in an API-driven catalog"
+    source_readings:
+      - sections/section-020/module-01/course-02-the-catalog-as-an-api-in-kubernetes.md
+    prompt: "A script creates entities directly through the API and writes the owner \"jason\". How do you make the catalog reject this?"
+    options:
+      - id: a
+        text: "Add a CEL rule to the CRD schema that requires the owner to start with group:."
+        explanation: "Correct. The API server evaluates the rule for every client."
+      - id: b
+        text: "Add a paragraph to the contribution guide."
+        explanation: "A guide does not stop a script."
+      - id: c
+        text: "Add the rule to the portal form."
+        explanation: "The script does not use the portal form."
+      - id: d
+        text: "Ask owners to review new entities on Fridays."
+        explanation: "A review finds the problem after the entity is stored."
+    correct_option: a
+    explanation: "Rules that live in the schema apply to every client of the API."
+
+  - id: ats081-020-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain what an enum in the schema prevents"
+    source_readings:
+      - sections/section-020/module-01/course-02-the-catalog-as-an-api-in-kubernetes.md
+    prompt: "The lifecycle field of an entity is an enum with experimental, production and deprecated. What does this prevent?"
+    options:
+      - id: a
+        text: "Entities without an owner."
+        explanation: "The required list does that, not the enum."
+      - id: b
+        text: "Variants such as Prod, prod and production that break filters and counts."
+        explanation: "Correct. The API server accepts only the listed values."
+      - id: c
+        text: "Dangling references."
+        explanation: "References are checked by a query, not by the enum."
+      - id: d
+        text: "Two entities with the same name."
+        explanation: "The object name is unique in the namespace."
+    correct_option: b
+    explanation: "A fixed list of values keeps queries and reports exact."
+
+  - id: ats081-020-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Understand why the entity name is unique"
+    source_readings:
+      - sections/section-020/module-01/course-02-the-catalog-as-an-api-in-kubernetes.md
+    prompt: "Two teams register an entity named probe in the same catalog namespace. What happens?"
+    options:
+      - id: a
+        text: "Both are stored, and the portal shows two entries."
+        explanation: "Object names are unique per namespace and kind."
+      - id: b
+        text: "The second create is rejected because an object with that name exists."
+        explanation: "Correct. The name is the object name, so the API guarantees uniqueness."
+      - id: c
+        text: "The second create replaces the first without a message."
+        explanation: "kubectl create does not replace an existing object."
+      - id: d
+        text: "The API server renames the second entity."
+        explanation: "The API server never renames objects."
+    correct_option: b
+    explanation: "Using the object name as the entity name gives uniqueness for free."
+
+  - id: ats081-020-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Describe how workloads connect to entities"
+    source_readings:
+      - sections/section-020/module-01/course-02-the-catalog-as-an-api-in-kubernetes.md
+    prompt: "Which design lets a query list the entity for every running Deployment?"
+    options:
+      - id: a
+        text: "A label such as catalog.starfleet.example/entity=<name> on each Deployment."
+        explanation: "Correct. A label can be selected and listed with kubectl."
+      - id: b
+        text: "A comment in the Deployment YAML."
+        explanation: "Comments are not stored in the cluster."
+      - id: c
+        text: "The same name in the Deployment and the entity, without a label."
+        explanation: "A name match cannot be selected by a query and is easy to mistype."
+      - id: d
+        text: "A ConfigMap per Deployment."
+        explanation: "This adds objects without a clear link."
+    correct_option: a
+    explanation: "A label gives a queryable link between a running workload and its catalog entry."
+
+  - id: ats081-020-q08
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Find a dangling reference"
+    source_readings:
+      - sections/section-020/module-01/course-03-keeping-the-catalog-useful.md
+    prompt: "The entity shuttle depends on resource:telemetry-db, and no entity telemetry-db exists. What is the correct description of the fault?"
+    options:
+      - id: a
+        text: "A stale entry."
+        explanation: "A stale entry is old, and this is a missing target."
+      - id: b
+        text: "An ownerless entry."
+        explanation: "The owner is not the problem."
+      - id: c
+        text: "A dangling reference."
+        explanation: "Correct. A relationship points at an entity that does not exist."
+      - id: d
+        text: "A drifted Deployment."
+        explanation: "Drift compares running workloads with entities."
+    correct_option: c
+    explanation: "A dependency on a missing entity is a dangling reference. Register the target or remove the link."
+
+  - id: ats081-020-q09
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Judge a repair of a stale entry"
+    source_readings:
+      - sections/section-020/module-01/course-03-keeping-the-catalog-useful.md
+    prompt: "An owner sets last-reviewed to today on every entity without reading them, because the freshness check fails. What is the result?"
+    options:
+      - id: a
+        text: "The catalog is correct again."
+        explanation: "Only the date changed."
+      - id: b
+        text: "The check passes and the wrong content stays hidden."
+        explanation: "Correct. The date is evidence of a review, and no review took place."
+      - id: c
+        text: "The API server rejects the update."
+        explanation: "The server does not know whether a review took place."
+      - id: d
+        text: "The dangling references are removed."
+        explanation: "Dates do not change relationships."
+    correct_option: b
+    explanation: "A review date is only useful when the review really happens."
+
+  - id: ats081-020-q10
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Detect drift between the cluster and the catalog"
+    source_readings:
+      - sections/section-020/module-01/course-03-keeping-the-catalog-useful.md
+    prompt: "Which query finds Deployments that no entity claims?"
+    options:
+      - id: a
+        text: "List Deployments that have no catalog.starfleet.example/entity label."
+        explanation: "Correct. Unlabeled Deployments are not linked to an entity."
+      - id: b
+        text: "List entities with lifecycle deprecated."
+        explanation: "This does not look at the cluster."
+      - id: c
+        text: "List entities without a description."
+        explanation: "This does not look at the cluster."
+      - id: d
+        text: "List Deployments with more than one replica."
+        explanation: "Replicas do not show a link."
+    correct_option: a
+    explanation: "Drift appears when running workloads and catalog entries do not match. The label is the link to check."
+
+  - id: ats081-020-q11
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Assign the repair to the right party"
+    source_readings:
+      - sections/section-020/module-01/course-03-keeping-the-catalog-useful.md
+    prompt: "A scan finds a dangling reference in an entity of the payments team. Who should repair it?"
+    options:
+      - id: a
+        text: "The payments team, who wrote the dependency, by registering the target or removing the link."
+        explanation: "Correct. The owning team owns the content of the entity."
+      - id: b
+        text: "The platform team, by deleting the entity."
+        explanation: "Deleting creates more dangling references."
+      - id: c
+        text: "Nobody, because the schema allowed it."
+        explanation: "The schema cannot see missing targets, so a query and an owner are needed."
+      - id: d
+        text: "The team of the missing entity, which does not exist yet."
+        explanation: "There is no such team to ask."
+    correct_option: a
+    explanation: "The platform team owns the tools and the report. The owning team repairs the content."
+

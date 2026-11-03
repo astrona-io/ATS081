@@ -1,0 +1,74 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: ops-reader
+  namespace: starfleet
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments", "replicasets"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["pods", "pods/log"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: ops-assistant-reader
+  namespace: starfleet
+subjects:
+  - kind: ServiceAccount
+    name: ops-assistant
+    namespace: assistant
+roleRef:
+  kind: Role
+  name: ops-reader
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: proposal-writer
+  namespace: assistant
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: ops-assistant-writer
+  namespace: assistant
+subjects:
+  - kind: ServiceAccount
+    name: ops-assistant
+    namespace: assistant
+roleRef:
+  kind: Role
+  name: proposal-writer
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: proposal-reviewer
+  namespace: assistant
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "list", "watch", "update", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: platform-reviewer-binding
+  namespace: assistant
+subjects:
+  - kind: User
+    name: platform-reviewer
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: proposal-reviewer
+  apiGroup: rbac.authorization.k8s.io

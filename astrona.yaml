@@ -1,9 +1,9 @@
-# Reading-only content; YAML knowledge checks have a separate index.
+# Course manifest for ATS081. Each section lists its README, a module (landing, parts, lab Question reading and lab entry after the part tested, summary), a capstone and a quiz.
 training:
   id: ATS081
   title: 'CNPA: IDPs and Developer Experience'
-  description: 'Detailed reading material and reusable YAML knowledge checks for CNPA: IDPs and Developer
-    Experience. Technical content remains draft. No labs or playgrounds.'
+  description: Concept lessons, diagrams, playgrounds, graded labs, capstones and original scenario quizzes
+    covering the published objectives of this CNPA domain. Labs run on kind (Kubernetes 1.35) and are untested.
   certification:
     name: Certified Cloud Native Platform Engineering Associate
     code: CNPA
@@ -16,87 +16,305 @@ training:
     - Developer Portals for Platform Adoption
     - AI/ML in Platform Automation
 modules:
-- id: module-intro
-  title: Introduction
-  description: Audience, reading method and review process.
-  content:
-  - type: reading
+  - id: module-intro
     title: Introduction
-    path: sections/intro/README.md
-  - type: reading
-    title: Welcome To The Course
-    path: sections/intro/course-01-welcome.md
-  - type: reading
-    title: Get Your Machine Ready
-    path: sections/intro/course-02-get-your-machine-ready.md
-  - type: reading
-    title: How This Course Is Made
-    path: sections/intro/course-03-how-this-course-is-made.md
-- id: module-010
-  title: Simplified Access to Platform Capabilities
-  description: Developed reading and reasoning for Simplified Access to Platform Capabilities.
-  maturity: alpha
-  content:
-  - type: reading
-    title: Simplified Access to Platform Capabilities
-    path: sections/section-010/README.md
-  - type: reading
-    title: Self-Service Requests, Guardrails And Useful Status
-    path: sections/section-010/module-01/course.md
-  - type: reading
-    title: Self-Service Requests, Guardrails And Useful Status
-    path: sections/section-010/module-01/course-01-self-service-requests-guardrails-and-useful-status.md
-  - type: reading
-    title: Summary
-    path: sections/section-010/module-01/course-02-summary.md
-- id: module-020
-  title: API-Driven Service Catalogs
-  description: Developed reading and reasoning for API-Driven Service Catalogs.
-  maturity: alpha
-  content:
-  - type: reading
-    title: API-Driven Service Catalogs
-    path: sections/section-020/README.md
-  - type: reading
-    title: Software Entities, Ownership And Discoverable Relationships
-    path: sections/section-020/module-01/course.md
-  - type: reading
-    title: Software Entities, Ownership And Discoverable Relationships
-    path: sections/section-020/module-01/course-01-software-entities-ownership-and-discoverable-relationships.md
-  - type: reading
-    title: Summary
-    path: sections/section-020/module-01/course-02-summary.md
-- id: module-030
-  title: Developer Portals for Platform Adoption
-  description: Developed reading and reasoning for Developer Portals for Platform Adoption.
-  maturity: alpha
-  content:
-  - type: reading
-    title: Developer Portals for Platform Adoption
-    path: sections/section-030/README.md
-  - type: reading
-    title: Developer Portals, Discovery And Supported Adoption
-    path: sections/section-030/module-01/course.md
-  - type: reading
-    title: Developer Portals, Discovery And Supported Adoption
-    path: sections/section-030/module-01/course-01-developer-portals-discovery-and-supported-adoption.md
-  - type: reading
-    title: Summary
-    path: sections/section-030/module-01/course-02-summary.md
-- id: module-040
-  title: AI/ML in Platform Automation
-  description: Developed reading and reasoning for AI/ML in Platform Automation.
-  maturity: alpha
-  content:
-  - type: reading
-    title: AI/ML in Platform Automation
-    path: sections/section-040/README.md
-  - type: reading
-    title: AI-Assisted Automation, Evaluation And Bounded Authority
-    path: sections/section-040/module-01/course.md
-  - type: reading
-    title: AI-Assisted Automation, Evaluation And Bounded Authority
-    path: sections/section-040/module-01/course-01-ai-assisted-automation-evaluation-and-bounded-authority.md
-  - type: reading
-    title: Summary
-    path: sections/section-040/module-01/course-02-summary.md
+    description: Audience, reading method and review process.
+    content:
+    - type: reading
+      title: Introduction
+      path: sections/intro/README.md
+    - type: reading
+      title: Welcome To The Course
+      path: sections/intro/course-01-welcome.md
+    - type: reading
+      title: Get Your Machine Ready
+      path: sections/intro/course-02-get-your-machine-ready.md
+    - type: reading
+      title: How This Course Is Made
+      path: sections/intro/course-03-how-this-course-is-made.md
+  - id: module-010
+    title: "Simplified Access to Platform Capabilities"
+    description: >
+      Makes the reader able to offer a platform capability as a self-service request: a request kind with a schema, defaults and validation rules, server-side guardrails (quota, limits and admission policy) with useful rejection messages, team permissions with RBAC, and request status that tells the user what happens.
+
+    content:
+      - type: reading
+        title: "Section Overview"
+        path: sections/section-010/README.md
+
+      - type: reading
+        title: "Self-Service Requests, Guardrails And Useful Status"
+        path: sections/section-010/module-01/course.md
+      - type: reading
+        title: "A Request API With A CustomResourceDefinition"
+        path: sections/section-010/module-01/course-01-a-request-api-with-a-customresourcedefinition.md
+      - type: reading
+        title: "Question"
+        path: sections/section-010/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Harden The EnvironmentRequest API Lab"
+        path: sections/section-010/module-01/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 25m
+        topic: self-service
+        task_kind: fix
+        tags: [crd, schema, cel, enum, defaults, status-subresource]
+        learning_goals:
+          - Restrict request fields with an enum, defaults and bounds
+          - Reject a wrong owner with a readable CEL rule message
+          - Enable the status subresource
+        resources:
+          - name: "Custom Resources"
+            url: https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/
+          - name: "CRD validation rules"
+            url: https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#validation-rules
+      - type: reading
+        title: "Guardrails With Quota, Limits And Admission Policy"
+        path: sections/section-010/module-01/course-02-guardrails-with-quota-limits-and-admission-policy.md
+      - type: reading
+        title: "Authorization And Useful Request Status"
+        path: sections/section-010/module-01/course-03-authorization-and-useful-request-status.md
+      - type: reading
+        title: "Summary"
+        path: sections/section-010/module-01/course-04-summary.md
+
+      - type: reading
+        title: "Question"
+        path: sections/section-010/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Simplified Access Capstone"
+        path: sections/section-010/capstone/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 40m
+        topic: self-service
+        task_kind: build
+        tags: [resourcequota, limitrange, validatingadmissionpolicy, rbac, status]
+        learning_goals:
+          - Set a quota and default limits for a team namespace
+          - Deny unlabeled Deployments in one namespace with a ValidatingAdmissionPolicy
+          - Give a group scoped permissions and record request status
+        resources:
+          - name: "Validating Admission Policy"
+            url: https://kubernetes.io/docs/reference/access-authn-authz/validating-admission-policy/
+          - name: "Resource Quotas"
+            url: https://kubernetes.io/docs/concepts/policy/resource-quotas/
+          - name: "Using RBAC Authorization"
+            url: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+      - type: quiz
+        title: "Knowledge Check: Simplified Access to Platform Capabilities"
+        path: sections/section-010/quiz.yaml
+        pass_score: 70
+  - id: module-020
+    title: "API-Driven Service Catalogs"
+    description: >
+      Makes the reader able to model a service catalog with entities, owners and relationships, serve it as a validated API in Kubernetes, query it with kubectl and jq, and keep it useful by finding stale entries, ownerless entries, dangling references and drift.
+
+    content:
+      - type: reading
+        title: "Section Overview"
+        path: sections/section-020/README.md
+
+      - type: reading
+        title: "API-Driven Service Catalogs"
+        path: sections/section-020/module-01/course.md
+      - type: reading
+        title: "The Catalog Model: Entities, Owners And Relationships"
+        path: sections/section-020/module-01/course-01-the-catalog-model-entities-owners-and-relationships.md
+      - type: reading
+        title: "The Catalog As An API In Kubernetes"
+        path: sections/section-020/module-01/course-02-the-catalog-as-an-api-in-kubernetes.md
+      - type: reading
+        title: "Question"
+        path: sections/section-020/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Complete The Starfleet Catalog Lab"
+        path: sections/section-020/module-01/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 25m
+        topic: service-catalog
+        task_kind: fix
+        tags: [catalog, crd, dependsOn, labels, jq]
+        learning_goals:
+          - Register a missing component as a catalog entity
+          - Remove a dangling reference without deleting entities
+          - Link running Deployments to entities with a label
+        resources:
+          - name: "Custom Resources"
+            url: https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/
+          - name: "Labels and Selectors"
+            url: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+      - type: reading
+        title: "Keeping The Catalog Useful"
+        path: sections/section-020/module-01/course-03-keeping-the-catalog-useful.md
+      - type: reading
+        title: "Summary"
+        path: sections/section-020/module-01/course-04-summary.md
+
+      - type: reading
+        title: "Question"
+        path: sections/section-020/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Catalog Health Capstone"
+        path: sections/section-020/capstone/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 40m
+        topic: service-catalog
+        task_kind: build
+        tags: [catalog, freshness, owners, dangling-references, report]
+        learning_goals:
+          - Repair a stale entry, a placeholder owner and a missing dependency
+          - Register the remaining entities and label the workloads
+          - Publish a health report that matches the live catalog
+        resources:
+          - name: "Custom Resources"
+            url: https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/
+          - name: "kubectl Quick Reference"
+            url: https://kubernetes.io/docs/reference/kubectl/quick-reference/
+      - type: quiz
+        title: "Knowledge Check: API-Driven Service Catalogs"
+        path: sections/section-020/quiz.yaml
+        pass_score: 70
+  - id: module-030
+    title: "Developer Portals for Platform Adoption"
+    description: >
+      Makes the reader able to separate a developer portal from the platform it fronts, run a portal that serves a service list, build and test a golden-path software template, and measure adoption, coverage and freshness.
+
+    content:
+      - type: reading
+        title: "Section Overview"
+        path: sections/section-030/README.md
+
+      - type: reading
+        title: "Developer Portals, Golden Paths And Supported Adoption"
+        path: sections/section-030/module-01/course.md
+      - type: reading
+        title: "The Portal And The Platform"
+        path: sections/section-030/module-01/course-01-the-portal-and-the-platform.md
+      - type: reading
+        title: "Question"
+        path: sections/section-030/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Refresh The Portal Service List Lab"
+        path: sections/section-030/module-01/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 25m
+        topic: developer-portal
+        task_kind: fix
+        tags: [portal, configmap, freshness, owners]
+        learning_goals:
+          - Replace a stale portal service list
+          - Give every entry a real owner
+          - Update the list and the date together
+        resources:
+          - name: "ConfigMaps"
+            url: https://kubernetes.io/docs/concepts/configuration/configmap/
+          - name: "Services"
+            url: https://kubernetes.io/docs/concepts/services-networking/service/
+      - type: reading
+        title: "Golden Paths And Software Templates"
+        path: sections/section-030/module-01/course-02-golden-paths-and-software-templates.md
+      - type: reading
+        title: "Adoption And Freshness"
+        path: sections/section-030/module-01/course-03-adoption-and-freshness.md
+      - type: reading
+        title: "Summary"
+        path: sections/section-030/module-01/course-04-summary.md
+
+      - type: reading
+        title: "Question"
+        path: sections/section-030/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Golden Path And Portal Capstone"
+        path: sections/section-030/capstone/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 40m
+        topic: developer-portal
+        task_kind: build
+        tags: [template, golden-path, portal, adoption]
+        learning_goals:
+          - Fix a template so it carries the platform rules
+          - Start a service from the template and list it in the portal
+          - Publish an adoption report that matches the cluster
+        resources:
+          - name: "Labels and Selectors"
+            url: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+          - name: "Liveness, Readiness and Startup Probes"
+            url: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+      - type: quiz
+        title: "Knowledge Check: Developer Portals for Platform Adoption"
+        path: sections/section-030/quiz.yaml
+        pass_score: 70
+  - id: module-040
+    title: "AI/ML in Platform Automation"
+    description: >
+      Makes the reader able to place an AI assistant in platform automation, limit its authority with RBAC and an admission policy so that it can only read and propose, route proposals through a reviewer, and evaluate the proposals with an acceptance rate that decides the assistant mode.
+
+    content:
+      - type: reading
+        title: "Section Overview"
+        path: sections/section-040/README.md
+
+      - type: reading
+        title: "AI-Assisted Automation, Bounded Authority And Evaluation"
+        path: sections/section-040/module-01/course.md
+      - type: reading
+        title: "Where AI Fits In Platform Automation"
+        path: sections/section-040/module-01/course-01-where-ai-fits-in-platform-automation.md
+      - type: reading
+        title: "Bounded Authority"
+        path: sections/section-040/module-01/course-02-bounded-authority.md
+      - type: reading
+        title: "Question"
+        path: sections/section-040/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Bound The Ops Assistant Lab"
+        path: sections/section-040/module-01/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 30m
+        topic: ai-authority
+        task_kind: fix
+        tags: [rbac, serviceaccount, validatingadmissionpolicy, least-privilege]
+        learning_goals:
+          - Remove a broad role binding from an assistant identity
+          - Give read-only and propose-only permissions
+          - Force the proposed status with an admission policy
+        resources:
+          - name: "Using RBAC Authorization"
+            url: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+          - name: "Validating Admission Policy"
+            url: https://kubernetes.io/docs/reference/access-authn-authz/validating-admission-policy/
+      - type: reading
+        title: "Evaluation And Feedback"
+        path: sections/section-040/module-01/course-03-evaluation-and-feedback.md
+      - type: reading
+        title: "Summary"
+        path: sections/section-040/module-01/course-04-summary.md
+
+      - type: reading
+        title: "Question"
+        path: sections/section-040/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Assistant Evaluation Capstone"
+        path: sections/section-040/capstone/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 40m
+        topic: ai-authority
+        task_kind: build
+        tags: [rbac, admission, evaluation, acceptance-rate]
+        learning_goals:
+          - Bound an over-privileged assistant
+          - Compute an acceptance rate from reviewed proposals
+          - Record the decision that keeps the assistant suggest-only
+        resources:
+          - name: "Using RBAC Authorization"
+            url: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+          - name: "kubectl Quick Reference"
+            url: https://kubernetes.io/docs/reference/kubectl/quick-reference/
+      - type: quiz
+        title: "Knowledge Check: AI/ML in Platform Automation"
+        path: sections/section-040/quiz.yaml
+        pass_score: 70
+      - type: quiz
+        title: "Final Knowledge Check: IDPs and Developer Experience"
+        path: sections/final-domain-quiz.yaml
+        pass_score: 70

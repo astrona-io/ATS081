@@ -1,0 +1,59 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Bound The Ops Assistant (LAB). Graded against the live cluster. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-081-lab-040-01
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+      - curlimages/curl:8.22.0
+
+bootstrap:
+  init:
+    - name: seed-cluster
+      description: Create the starting state, including the faults
+      type: file
+      source: bootstrap/01-seed-cluster.sh
+
+# Applied only by astrona test: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+
+validation:
+  scripts:
+    - name: read-only
+      description: "The assistant can read Deployments and Pods in starfleet and cannot change them or read Secrets"
+      type: file
+      source: validation/validate-read-only.sh
+      hint: "Delete the RoleBinding ops-assistant-edit and add a Role with get, list and watch on Deployments and Pods."
+    - name: propose-only
+      description: "The assistant can only create ConfigMaps in assistant and cannot update or delete them"
+      type: file
+      source: validation/validate-propose-only.sh
+      hint: "Create a Role in assistant with the verb create on configmaps and bind it to the ServiceAccount."
+    - name: status-policy
+      description: "Proposals from the assistant are denied unless the label proposal-status is proposed, and other users are not affected"
+      type: file
+      source: validation/validate-policy.sh
+      hint: "Create a ValidatingAdmissionPolicy that reads request.userInfo.username, and a binding with Deny for the namespace assistant. A new policy needs a few seconds."
+    - name: reviewer
+      description: "The user platform-reviewer can read and update ConfigMaps in assistant only, and can change the status of a proposal"
+      type: file
+      source: validation/validate-reviewer.sh
+      hint: "Create a Role with get, list, watch, update and patch on configmaps in assistant and bind it to the User platform-reviewer."
+
+teardown:
+  keepCluster: false

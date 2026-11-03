@@ -1,0 +1,7 @@
+status:
+  phase: Ready
+  conditions:
+    - type: Ready
+      status: "True"
+      reason: NamespaceProvisioned
+      message: Environment is available in team-alpha

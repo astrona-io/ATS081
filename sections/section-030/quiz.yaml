@@ -1,0 +1,266 @@
+# Knowledge check for section 030. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+id: ats081-030
+course_id: ATS081
+exam_code: CNPA
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-030
+  title: "Developer Portals for Platform Adoption"
+questions:
+  - id: ats081-030-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Distinguish a portal from the platform"
+    source_readings:
+      - sections/section-030/module-01/course-01-the-portal-and-the-platform.md
+    prompt: "The developer portal is down during an outage. What should still be true for a well designed platform?"
+    options:
+      - id: a
+        text: "All running services stop."
+        explanation: "The portal does not run workloads."
+      - id: b
+        text: "Engineers can still reach the platform APIs with a command line tool or direct API calls."
+        explanation: "Correct. The portal is one interface, and the platform works without it."
+      - id: c
+        text: "Nobody can change anything until the portal is back."
+        explanation: "This means the portal is a single point of failure."
+      - id: d
+        text: "The platform rules are not applied."
+        explanation: "Rules are enforced by the platform, not by the portal."
+    correct_option: b
+    explanation: "The portal fronts the platform. Alternative interfaces keep the platform usable when the portal is not."
+
+  - id: ats081-030-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Name the three functions of a portal"
+    source_readings:
+      - sections/section-030/module-01/course-01-the-portal-and-the-platform.md
+    prompt: "Which list names the three usual functions of a developer portal?"
+    options:
+      - id: a
+        text: "Discovery, documentation and tasks."
+        explanation: "Correct. Find services, read guides and start actions."
+      - id: b
+        text: "Scheduling, networking and storage."
+        explanation: "These are cluster functions."
+      - id: c
+        text: "Billing, hiring and planning."
+        explanation: "These are not portal functions."
+      - id: d
+        text: "Logging, tracing and alerting."
+        explanation: "These belong to observability tooling."
+    correct_option: a
+    explanation: "A portal offers discovery, documentation and task templates or actions."
+
+  - id: ats081-030-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Place rules where every client meets them"
+    source_readings:
+      - sections/section-030/module-01/course-01-the-portal-and-the-platform.md
+    prompt: "A team wants to forbid Deployments without an owner label. They plan to add the check to the portal form. What is the problem?"
+    options:
+      - id: a
+        text: "Forms cannot check labels."
+        explanation: "A form can check labels, but only for its own users."
+      - id: b
+        text: "The portal cannot be updated."
+        explanation: "The portal can be updated."
+      - id: c
+        text: "Labels are optional in Kubernetes."
+        explanation: "This does not answer where the rule should live."
+      - id: d
+        text: "A script that calls the API skips the portal and the rule."
+        explanation: "Correct. Rules belong in the platform API or admission, where every client meets them."
+    correct_option: d
+    explanation: "Put the rule in admission or the platform API so a click and a script face the same check."
+
+  - id: ats081-030-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain the delay of a mounted ConfigMap update"
+    source_readings:
+      - sections/section-030/module-01/course-01-the-portal-and-the-platform.md
+    prompt: "A team updates the ConfigMap that the portal serves and immediately fetches the old content. What is the most likely reason?"
+    options:
+      - id: a
+        text: "nginx never reads files from ConfigMaps."
+        explanation: "nginx serves the mounted files."
+      - id: b
+        text: "The Service must be deleted and created again."
+        explanation: "The Service is not involved in the file content."
+      - id: c
+        text: "The kubelet updates mounted ConfigMaps periodically, so the change appears after a delay."
+        explanation: "Correct. A short wait is normal."
+      - id: d
+        text: "The ConfigMap update failed silently."
+        explanation: "A failed update returns an error."
+    correct_option: c
+    explanation: "ConfigMap volumes update in running Pods after a delay of up to about a minute."
+
+  - id: ats081-030-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain what a golden path is"
+    source_readings:
+      - sections/section-030/module-01/course-02-golden-paths-and-software-templates.md
+    prompt: "Which statement describes a golden path correctly?"
+    options:
+      - id: a
+        text: "A release schedule for the platform."
+        explanation: "This is unrelated."
+      - id: b
+        text: "The supported way to start and run a service, which a team may leave if it has a special need."
+        explanation: "Correct. It is opinionated and not mandatory."
+      - id: c
+        text: "A rule that blocks any service that was not created from the template."
+        explanation: "This describes a mandate, not a supported path."
+      - id: d
+        text: "A list of approved cloud regions."
+        explanation: "This is a different control."
+    correct_option: b
+    explanation: "A golden path is made attractive by results and support, not forced by blocking."
+
+  - id: ats081-030-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "List what a template should carry"
+    source_readings:
+      - sections/section-030/module-01/course-02-golden-paths-and-software-templates.md
+    prompt: "A template creates Deployments without the catalog entity label. What is the effect on the platform?"
+    options:
+      - id: a
+        text: "The services run, but the platform cannot link them to catalog entries or count them."
+        explanation: "Correct. Labels are the link between the cluster and the catalog."
+      - id: b
+        text: "The Deployments are rejected by the API server."
+        explanation: "A missing label is valid for the API server."
+      - id: c
+        text: "The services run slower."
+        explanation: "Labels do not change performance."
+      - id: d
+        text: "The services lose their owner."
+        explanation: "The owner is a separate label."
+    correct_option: a
+    explanation: "Without the entity label the running service is invisible to catalog queries."
+
+  - id: ats081-030-q07
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Test a template before use"
+    source_readings:
+      - sections/section-030/module-01/course-02-golden-paths-and-software-templates.md
+    prompt: "Which step best checks that a changed template still produces valid services?"
+    options:
+      - id: a
+        text: "Read it once in the editor."
+        explanation: "This misses errors from admission and schema."
+      - id: b
+        text: "Apply it to production and wait for complaints."
+        explanation: "A broken template fails every new service."
+      - id: c
+        text: "Delete the old services."
+        explanation: "This does not test the template."
+      - id: d
+        text: "Render it with sample values and send the result through a server-side dry run."
+        explanation: "Correct. Admission and schema errors appear before anything is stored."
+    correct_option: d
+    explanation: "A server-side dry run tests the rendered manifest against the real API server."
+
+  - id: ats081-030-q08
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Know the limit of a template"
+    source_readings:
+      - sections/section-030/module-01/course-02-golden-paths-and-software-templates.md
+    prompt: "The platform team adds a security setting to the template. What happens to services that were created from the template earlier?"
+    options:
+      - id: a
+        text: "They are deleted and created again."
+        explanation: "Nothing deletes them."
+      - id: b
+        text: "They are removed from the catalog."
+        explanation: "The catalog does not change."
+      - id: c
+        text: "They do not change; the template produces a service only once."
+        explanation: "Correct. Plan a way to update older services."
+      - id: d
+        text: "They update automatically."
+        explanation: "A template has no live link to existing services."
+    correct_option: c
+    explanation: "Track the template version and offer an update path for existing services."
+
+  - id: ats081-030-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Compute portal coverage"
+    source_readings:
+      - sections/section-030/module-01/course-03-adoption-and-freshness.md
+    prompt: "The cluster has 5 service Deployments and the portal lists 2 of them. What is the coverage?"
+    options:
+      - id: a
+        text: "100 percent"
+        explanation: "Three services are missing from the portal."
+      - id: b
+        text: "40 percent"
+        explanation: "Correct. 2 divided by 5 is 0.4."
+      - id: c
+        text: "60 percent"
+        explanation: "This is the share that is missing."
+      - id: d
+        text: "25 percent"
+        explanation: "This does not match 2 of 5."
+    correct_option: b
+    explanation: "Coverage is the share of running services that the portal lists."
+
+  - id: ats081-030-q10
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Judge a refresh that changes only one field"
+    source_readings:
+      - sections/section-030/module-01/course-03-adoption-and-freshness.md
+    prompt: "Somebody changes the updated date of services.json to today but does not change the list. What is the result?"
+    options:
+      - id: a
+        text: "The freshness check passes and the portal claims a refresh that did not happen."
+        explanation: "Correct. The date and the content must change together."
+      - id: b
+        text: "The portal becomes correct."
+        explanation: "The list is the same as before."
+      - id: c
+        text: "nginx rejects the file."
+        explanation: "nginx serves any content."
+      - id: d
+        text: "The catalog is updated too."
+        explanation: "The portal copy is separate."
+    correct_option: a
+    explanation: "A date is only evidence of a refresh when the content was refreshed."
+
+  - id: ats081-030-q11
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Choose the response to low adoption"
+    source_readings:
+      - sections/section-030/module-01/course-03-adoption-and-freshness.md
+    prompt: "Only one of five services uses the golden-path template. Which response is best?"
+    options:
+      - id: a
+        text: "Block every Deployment that has no golden-path label."
+        explanation: "A mandate without support produces copies of the template without its checks."
+      - id: b
+        text: "Remove the metric."
+        explanation: "The metric shows where to look."
+      - id: c
+        text: "Declare the portal a success because it has a template."
+        explanation: "The number says the opposite."
+      - id: d
+        text: "Ask the owners why they stay off the path, fix what blocks them and help them move."
+        explanation: "Correct. Supported adoption addresses the cause."
+    correct_option: d
+    explanation: "Low adoption is a product problem. Find the reason and remove it."
+

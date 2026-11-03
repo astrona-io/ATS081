@@ -1,0 +1,70 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Catalog Health Capstone (CAPSTONE LAB). Graded against the live cluster. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-081-capstone-020
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+      - mccutchen/go-httpbin:2.25.0
+      - curlimages/curl:8.22.0
+
+bootstrap:
+  init:
+    - name: seed-cluster
+      description: Create the starting state, including the faults
+      type: file
+      source: bootstrap/01-seed-cluster.sh
+
+# Applied only by astrona test: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+
+validation:
+  scripts:
+    - name: freshness
+      description: "Entity scout was reviewed on 2026-11-01 or later and no entity has a review date before 2026-08-01 or none"
+      type: file
+      source: validation/validate-freshness.sh
+      hint: "Set the annotation catalog.starfleet.example/last-reviewed on scout to a date in November 2026. Every new entity needs the annotation too."
+    - name: owners
+      description: "No entity has the placeholder owner group:unassigned and probe is owned by group:starfleet-team"
+      type: file
+      source: validation/validate-owners.sh
+      hint: "Change the owner of probe to group:starfleet-team and check the owner of every entity you add."
+    - name: new-entities
+      description: "Entity telemetry-db is a production Resource owned by group:starfleet-team and entity drifter is an experimental Component owned by group:outpost-team"
+      type: file
+      source: validation/validate-new-entities.sh
+      hint: "Create the entities telemetry-db (kind Resource) and drifter (kind Component) in the namespace catalog."
+    - name: no-dangling
+      description: "Every dependency of every entity points at an entity that exists, and shuttle still depends on resource:telemetry-db"
+      type: file
+      source: validation/validate-no-dangling.sh
+      hint: "Register telemetry-db instead of removing the dependency of shuttle."
+    - name: workload-labels
+      description: "The Deployments scout, probe, shuttle and drifter carry the label catalog.starfleet.example/entity with their own name"
+      type: file
+      source: validation/validate-labels.sh
+      hint: "Use kubectl label deployment NAME catalog.starfleet.example/entity=NAME in the namespaces starfleet and outpost."
+    - name: report
+      description: "ConfigMap catalog-report in the namespace catalog has total, owners and dangling that match the live catalog"
+      type: file
+      source: validation/validate-report.sh
+      hint: "Count the entities, the distinct owners and the dangling references with jq, then create the ConfigMap with those values."
+
+teardown:
+  keepCluster: false

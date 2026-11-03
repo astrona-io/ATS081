@@ -1,0 +1,64 @@
+# yaml-language-server: $schema=https://cli.astrona.io/schema/lab-config.schema.json
+#
+# Assistant Evaluation Capstone (CAPSTONE LAB). Graded against the live cluster. Built untested.
+apiVersion: astrona.io/v1
+metadata:
+  name: ats-081-capstone-040
+  docs:
+    prerequisites: prerequisites.md
+    question: question.md
+    solution: solution.md
+
+runtime:
+  type: kind
+  kind:
+    image: kindest/node:v1.35.8
+    preloadImages:
+      - ghcr.io/stefanprodan/podinfo:6.15.0
+      - curlimages/curl:8.22.0
+
+bootstrap:
+  init:
+    - name: seed-cluster
+      description: Create the starting state, including the faults
+      type: file
+      source: bootstrap/01-seed-cluster.sh
+
+# Applied only by astrona test: the reference solution.
+testing:
+  init:
+    - name: apply-solution
+      description: Apply the reference solution
+      type: file
+      source: solution/apply.sh
+
+validation:
+  scripts:
+    - name: read-only
+      description: "The assistant can read Deployments and Pods in starfleet and cannot change them or read Secrets"
+      type: file
+      source: validation/validate-read-only.sh
+      hint: "Delete the RoleBinding ops-assistant-edit and add a read-only Role."
+    - name: propose-only
+      description: "The assistant can only create ConfigMaps in assistant and cannot update or delete them"
+      type: file
+      source: validation/validate-propose-only.sh
+      hint: "Create a Role in assistant with the verb create on configmaps."
+    - name: status-policy
+      description: "Proposals from the assistant are denied unless the label proposal-status is proposed, and other users are not affected"
+      type: file
+      source: validation/validate-policy.sh
+      hint: "Use a ValidatingAdmissionPolicy with request.userInfo.username and a Deny binding for assistant."
+    - name: reviewer
+      description: "The user platform-reviewer can read and update ConfigMaps in assistant only"
+      type: file
+      source: validation/validate-reviewer.sh
+      hint: "Bind a Role with get, list, watch, update and patch on configmaps to the User platform-reviewer."
+    - name: evaluation
+      description: "ConfigMap assistant-evaluation holds reviewed, accepted, rejected, acceptanceRate and mode that match the proposals"
+      type: file
+      source: validation/validate-evaluation.sh
+      hint: "Count proposals by the label proposal-status. Reviewed is accepted plus rejected, and proposals with the status proposed are not counted. The mode stays suggest-only below 20 reviewed proposals or an acceptance rate below 90."
+
+teardown:
+  keepCluster: false

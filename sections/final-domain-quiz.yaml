@@ -1,0 +1,290 @@
+# Final domain knowledge check across all four sections.
+---
+schema_version: 1
+kind: question_bank
+id: ats081-final
+course_id: ATS081
+exam_code: CNPA
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: domain
+  id: idps-and-developer-experience
+  title: "IDPs and Developer Experience"
+questions:
+  - id: ats081-final-q01
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Choose where a guardrail must live"
+    source_readings:
+      - sections/section-010/module-01/course-01-a-request-api-with-a-customresourcedefinition.md
+    prompt: "A form in a portal rejects requests without an owner, but a developer sends a request with kubectl and it is accepted. What is the fix?"
+    options:
+      - id: a
+        text: "Add a second form."
+        explanation: "This does not change what the API server accepts."
+      - id: b
+        text: "Enforce the rule on the API server with a schema rule or an admission policy."
+        explanation: "Correct. Every client meets the rule."
+      - id: c
+        text: "Make the form stricter."
+        explanation: "Clients that skip the form are still not covered."
+      - id: d
+        text: "Tell developers to use the form."
+        explanation: "A rule that depends on behavior is not enforced."
+    correct_option: b
+    explanation: "Correct. Every client meets the rule."
+
+  - id: ats081-final-q02
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Compare quota, limit range and admission policy"
+    source_readings:
+      - sections/section-010/module-01/course-02-guardrails-with-quota-limits-and-admission-policy.md
+    prompt: "Which object sets a default memory limit for containers that declare none?"
+    options:
+      - id: a
+        text: "A LimitRange."
+        explanation: "Correct. It applies defaults and bounds per container."
+      - id: b
+        text: "A ResourceQuota."
+        explanation: "A quota caps the total of a namespace and sets no defaults."
+      - id: c
+        text: "A ValidatingAdmissionPolicy."
+        explanation: "A validating policy accepts or denies and does not change objects."
+      - id: d
+        text: "A RoleBinding."
+        explanation: "This grants permissions."
+    correct_option: a
+    explanation: "Correct. It applies defaults and bounds per container."
+
+  - id: ats081-final-q03
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Test permissions by impersonation"
+    source_readings:
+      - sections/section-010/module-01/course-03-authorization-and-useful-request-status.md
+    prompt: "Which command tests whether a group may create requests in a namespace?"
+    options:
+      - id: a
+        text: "kubectl get rolebinding -n team-alpha"
+        explanation: "This lists bindings and does not evaluate them."
+      - id: b
+        text: "kubectl describe quota -n team-alpha"
+        explanation: "This shows quota use."
+      - id: c
+        text: "kubectl api-resources"
+        explanation: "This lists resource types."
+      - id: d
+        text: "kubectl auth can-i create environmentrequests -n team-alpha --as=dev --as-group=team-alpha-developers"
+        explanation: "Correct. The API server evaluates the permission for that identity."
+    correct_option: d
+    explanation: "Correct. The API server evaluates the permission for that identity."
+
+  - id: ats081-final-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Judge the value of a catalog entry"
+    source_readings:
+      - sections/section-020/module-01/course-01-the-catalog-model-entities-owners-and-relationships.md
+    prompt: "Which entry is least useful to a reader of the catalog?"
+    options:
+      - id: a
+        text: "An entity that depends on another registered entity."
+        explanation: "A resolved dependency is useful."
+      - id: b
+        text: "An entity reviewed last week."
+        explanation: "A recent review is a good sign."
+      - id: c
+        text: "An entity whose owner is a placeholder such as group:unassigned."
+        explanation: "Correct. Nobody can be asked about it."
+      - id: d
+        text: "An entity with a lifecycle of experimental."
+        explanation: "The lifecycle tells the reader what to expect."
+    correct_option: c
+    explanation: "Correct. Nobody can be asked about it."
+
+  - id: ats081-final-q05
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Find a dangling reference"
+    source_readings:
+      - sections/section-020/module-01/course-02-the-catalog-as-an-api-in-kubernetes.md
+    prompt: "The entity shuttle depends on resource:telemetry-db, and no such entity exists. What is this called and what is the repair?"
+    options:
+      - id: a
+        text: "A duplicate. Delete shuttle."
+        explanation: "The entity is not duplicated."
+      - id: b
+        text: "A dangling reference. Register the missing entity or remove the dependency if it is wrong."
+        explanation: "Correct. The relationship must resolve to a real entity."
+      - id: c
+        text: "Drift. Restart the Deployment."
+        explanation: "Drift compares the catalog with the cluster. Restarting changes nothing in the catalog."
+      - id: d
+        text: "A stale entry. Change the review date."
+        explanation: "A review date does not create the missing entity."
+    correct_option: b
+    explanation: "Correct. The relationship must resolve to a real entity."
+
+  - id: ats081-final-q06
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Detect drift between cluster and catalog"
+    source_readings:
+      - sections/section-020/module-01/course-03-keeping-the-catalog-useful.md
+    prompt: "A Deployment runs in the cluster and has no matching catalog entity. How do you detect this for every Deployment?"
+    options:
+      - id: a
+        text: "Compare the Deployment labels or names with the entity names with jq."
+        explanation: "Correct. A comparison finds every unmatched workload."
+      - id: b
+        text: "Read the catalog once a year."
+        explanation: "This finds drift late."
+      - id: c
+        text: "Ask each team by email."
+        explanation: "This does not scale and misses cases."
+      - id: d
+        text: "Delete unmatched Deployments."
+        explanation: "This removes running software that nobody reviewed."
+    correct_option: a
+    explanation: "Correct. A comparison finds every unmatched workload."
+
+  - id: ats081-final-q07
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Separate the portal from the platform"
+    source_readings:
+      - sections/section-030/module-01/course-01-the-portal-and-the-platform.md
+    prompt: "A portal is down. What should still work?"
+    options:
+      - id: a
+        text: "Nothing, because the portal holds the rules."
+        explanation: "Rules belong in the platform so that every client meets them."
+      - id: b
+        text: "Only the catalog data."
+        explanation: "The portal does not own the data."
+      - id: c
+        text: "Only quota."
+        explanation: "Quota is a Kubernetes object that exists without the portal."
+      - id: d
+        text: "Developers can still reach the platform APIs and create what they need."
+        explanation: "Correct. The portal is one interface to the platform and not the platform."
+    correct_option: d
+    explanation: "Correct. The portal is one interface to the platform and not the platform."
+
+  - id: ats081-final-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Test a template before use"
+    source_readings:
+      - sections/section-030/module-01/course-02-golden-paths-and-software-templates.md
+    prompt: "Which test shows that a golden-path template produces a working service?"
+    options:
+      - id: a
+        text: "Count the placeholders."
+        explanation: "A count does not test behavior."
+      - id: b
+        text: "Check that the file name ends in yaml."
+        explanation: "The name says nothing about the content."
+      - id: c
+        text: "Render it for a test service, apply it and check that the rollout finishes and the labels exist."
+        explanation: "Correct. This tests the real result."
+      - id: d
+        text: "Read the template once."
+        explanation: "A read does not show a runtime result."
+    correct_option: c
+    explanation: "Correct. This tests the real result."
+
+  - id: ats081-final-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Compute portal coverage"
+    source_readings:
+      - sections/section-030/module-01/course-03-adoption-and-freshness.md
+    prompt: "Eight Deployments run and the portal lists six of them. What is the coverage?"
+    options:
+      - id: a
+        text: "86 percent"
+        explanation: "This divides by 7."
+      - id: b
+        text: "75 percent"
+        explanation: "Correct. 6 divided by 8 is 0.75."
+      - id: c
+        text: "6 percent"
+        explanation: "This is the count and not a percent."
+      - id: d
+        text: "25 percent"
+        explanation: "This is the share that is missing."
+    correct_option: b
+    explanation: "Correct. 6 divided by 8 is 0.75."
+
+  - id: ats081-final-q10
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Choose tasks for an assistant"
+    source_readings:
+      - sections/section-040/module-01/course-01-where-ai-fits-in-platform-automation.md
+    prompt: "Which task should stay with tested automation and not an assistant?"
+    options:
+      - id: a
+        text: "Applying a security policy to every cluster."
+        explanation: "Correct. A failure is costly, so the action must be repeatable."
+      - id: b
+        text: "Summarizing an incident timeline."
+        explanation: "A person can check a summary."
+      - id: c
+        text: "Drafting a runbook update for review."
+        explanation: "A reviewer sits between the draft and the change."
+      - id: d
+        text: "Suggesting a likely cause of an alert."
+        explanation: "A suggestion changes nothing by itself."
+    correct_option: a
+    explanation: "Correct. A failure is costly, so the action must be repeatable."
+
+  - id: ats081-final-q11
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Bound authority with identity"
+    source_readings:
+      - sections/section-040/module-01/course-02-bounded-authority.md
+    prompt: "Why is a narrow RBAC Role for the assistant more reliable than an instruction in its prompt?"
+    options:
+      - id: a
+        text: "Roles are faster than prompts."
+        explanation: "Speed is unrelated."
+      - id: b
+        text: "Prompts are ignored by Kubernetes."
+        explanation: "The issue is enforcement and not what Kubernetes ignores."
+      - id: c
+        text: "A Role makes the assistant more accurate."
+        explanation: "A Role limits authority and does not change accuracy."
+      - id: d
+        text: "The API server enforces the Role whatever the assistant reads or decides."
+        explanation: "Correct. Authority does not depend on the behavior of the assistant."
+    correct_option: d
+    explanation: "Correct. Authority does not depend on the behavior of the assistant."
+
+  - id: ats081-final-q12
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Evaluate with an acceptance rate"
+    source_readings:
+      - sections/section-040/module-01/course-03-evaluation-and-feedback.md
+    prompt: "Five proposals were accepted, one was rejected and four wait. What is the acceptance rate and is the mode widened under a rule of 20 reviewed proposals and 90 percent?"
+    options:
+      - id: a
+        text: "100 percent, and the mode is widened."
+        explanation: "This ignores the rejected proposal."
+      - id: b
+        text: "83 percent, and the mode is widened."
+        explanation: "The rate is below 90 and the sample is too small."
+      - id: c
+        text: "About 83 percent, and the mode stays suggest-only because only 6 were reviewed."
+        explanation: "Correct. 5 divided by 6 is about 83, and the sample is too small."
+      - id: d
+        text: "50 percent, and the mode is widened."
+        explanation: "This counts the waiting proposals, and the sample is too small."
+    correct_option: c
+    explanation: "Correct. 5 divided by 6 is about 83, and the sample is too small."
+

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: portal-catalog
+  namespace: portal
+data:
+  services.json: |
+    {
+      "updated": "2026-11-02",
+      "services": [
+      {"name": "scout", "owner": "starfleet-team", "lifecycle": "production", "docs": "docs/scout"},
+      {"name": "probe", "owner": "starfleet-team", "lifecycle": "production", "docs": "docs/probe"},
+      {"name": "shuttle", "owner": "starfleet-team", "lifecycle": "production", "docs": "docs/shuttle"},
+      {"name": "drifter", "owner": "outpost-team", "lifecycle": "experimental", "docs": "docs/drifter"}
+      ]
+    }

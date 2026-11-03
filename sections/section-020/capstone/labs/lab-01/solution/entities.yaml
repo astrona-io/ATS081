@@ -1,0 +1,57 @@
+apiVersion: catalog.starfleet.example/v1alpha1
+kind: CatalogEntity
+metadata:
+  name: scout
+  namespace: catalog
+  annotations:
+    catalog.starfleet.example/last-reviewed: "2026-11-02"
+spec:
+  kind: Component
+  lifecycle: production
+  owner: group:starfleet-team
+  system: starfleet-system
+  description: Backend service that answers fleet queries
+---
+apiVersion: catalog.starfleet.example/v1alpha1
+kind: CatalogEntity
+metadata:
+  name: probe
+  namespace: catalog
+  annotations:
+    catalog.starfleet.example/last-reviewed: "2026-10-20"
+spec:
+  kind: Component
+  lifecycle: production
+  owner: group:starfleet-team
+  system: starfleet-system
+  description: Test target that echoes requests
+  dependsOn:
+    - component:scout
+---
+apiVersion: catalog.starfleet.example/v1alpha1
+kind: CatalogEntity
+metadata:
+  name: telemetry-db
+  namespace: catalog
+  annotations:
+    catalog.starfleet.example/last-reviewed: "2026-11-02"
+spec:
+  kind: Resource
+  lifecycle: production
+  owner: group:starfleet-team
+  description: Database for telemetry data
+---
+apiVersion: catalog.starfleet.example/v1alpha1
+kind: CatalogEntity
+metadata:
+  name: drifter
+  namespace: catalog
+  annotations:
+    catalog.starfleet.example/last-reviewed: "2026-11-02"
+spec:
+  kind: Component
+  lifecycle: experimental
+  owner: group:outpost-team
+  description: Client that runs in the outpost namespace
+  dependsOn:
+    - component:scout
