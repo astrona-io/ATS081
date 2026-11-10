@@ -57,7 +57,7 @@ modules:
         difficulty: intermediate
         estimated_duration: 25m
         topic: self-service
-        task_kind: fix
+        task_kind: build
         tags: [crd, schema, cel, enum, defaults, status-subresource]
         learning_goals:
           - Restrict request fields with an enum, defaults and bounds
@@ -99,7 +99,7 @@ modules:
         difficulty: intermediate
         estimated_duration: 25m
         topic: tenant-isolation
-        task_kind: fix
+        task_kind: build
         tags: [namespace, resourcequota, limitrange, networkpolicy, pod-security]
         learning_goals:
           - Label a namespace as a tenant and enforce the baseline Pod Security level
@@ -177,7 +177,7 @@ modules:
         difficulty: intermediate
         estimated_duration: 25m
         topic: service-catalog
-        task_kind: fix
+        task_kind: build
         tags: [catalog, crd, dependsOn, labels, jq]
         learning_goals:
           - Register a missing component as a catalog entity
@@ -213,7 +213,7 @@ modules:
         difficulty: intermediate
         estimated_duration: 25m
         topic: catalog-descriptor
-        task_kind: fix
+        task_kind: troubleshooting
         tags: [catalog, descriptor, lifecycle, owner, dependsOn]
         learning_goals:
           - Use an agreed lifecycle value
@@ -287,7 +287,7 @@ modules:
         difficulty: intermediate
         estimated_duration: 25m
         topic: developer-portal
-        task_kind: fix
+        task_kind: troubleshooting
         tags: [portal, configmap, freshness, owners]
         learning_goals:
           - Replace a stale portal service list
@@ -329,7 +329,7 @@ modules:
         difficulty: intermediate
         estimated_duration: 25m
         topic: software-templates
-        task_kind: fix
+        task_kind: build
         tags: [scaffolder, template, parameters, steps, catalog-register]
         learning_goals:
           - Mark the name and the owner as required and limit the name with a pattern
@@ -403,7 +403,7 @@ modules:
         difficulty: intermediate
         estimated_duration: 30m
         topic: ai-authority
-        task_kind: fix
+        task_kind: troubleshooting
         tags: [rbac, serviceaccount, validatingadmissionpolicy, least-privilege]
         learning_goals:
           - Remove a broad role binding from an assistant identity
@@ -442,7 +442,7 @@ modules:
         difficulty: intermediate
         estimated_duration: 25m
         topic: ml-platform
-        task_kind: fix
+        task_kind: build
         tags: [resourcequota, extended-resources, priorityclass, job, gpu]
         learning_goals:
           - Limit the GPUs and Pods of the ML namespace with a ResourceQuota
